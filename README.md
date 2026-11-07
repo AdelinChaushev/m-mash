@@ -74,13 +74,12 @@ Font: Onest, loaded from Google Fonts with Cyrillic.
 
 ## Files that stay on the old server
 
-The EU funding logos and all project documents in the Актуално section load from the current m-mash.net server (`files/`, `images/Eu-pic.png`, `Info for website_TM 2023.docx`), and so does the ISO certificate on the home pages (`images/CCF31102018.jpg`). Keep those files when you upload the new site, or the funding logos, document links and certificate break.
+The EU funding logos and all project documents in the Актуално section load from the current m-mash.net server (`files/`, `images/Eu-pic.png`, `Info for website_TM 2023.docx`). Keep those files when you upload the new site, or the funding logos and document links break.
 
 ## Notes before going live
 
 - The site still needs a privacy policy. The contact form collects personal data, and the Google Fonts and Google Maps requests send visitors' IP addresses to Google.
 - The 2026 project ("Енергийна ефективност в М-Маш ЕООД") is described only inside `files/26/Info-website.pdf`. EU rules ask for a short description of the project (aims and results) on the website itself, so paste that text into the Актуално section of `index.html` when you can.
-- The certificate in the Quality section of the home pages is the scan from the old site. It shows an expiry date of 24 June 2021, while `za-nas.html` and its translations call the certification valid. When a newer certificate is ready, upload it over `images/CCF31102018.jpg` under the same name. If the certification body has changed, also update the caption in the `.certificate` block of the four home pages.
 - New notices go at the top of the matching project's `<ol class="notices">` in `index.html`, copying an existing `<li class="notice">`. Add the translated notice to `en/index.html`, `de/index.html` and `it/index.html` too.
 - The header, top bar and footer are repeated in every page. Edit all twenty-four pages together, including those in `en/`, `de/` and `it/`.
 
@@ -88,7 +87,7 @@ The EU funding logos and all project documents in the Актуално section l
 
 The site is published from the `main` branch of https://github.com/AdelinChaushev/m-mash to https://adelinchaushev.github.io/m-mash/. Every push to `main` updates it within a few minutes. The empty `.nojekyll` file tells GitHub to serve the files as they are.
 
-The EU files, the certificate and the fallback photos still load from the old m-mash.net server. If m-mash.net itself is later pointed at GitHub Pages, copy those files into this repo and update their links first, or they will stop loading.
+The EU files and the fallback photos still load from the old m-mash.net server. If m-mash.net itself is later pointed at GitHub Pages, copy those files into this repo and update their links first, or they will stop loading.
 
 ## Local preview
 

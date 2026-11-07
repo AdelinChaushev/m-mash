@@ -442,15 +442,6 @@ p { text-wrap: pretty; }
 .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .photo--missing img { display: none; }
 
-/* The ISO certificate on the home page: shown whole, and the scan opens at full size */
-.certificate { display: grid; gap: 0.75rem; width: min(100%, 20rem); justify-self: end; }
-.certificate a { display: block; border-radius: var(--radius-md); }
-.certificate img { width: 100%; border-radius: var(--radius-md); }
-.certificate figcaption { font-size: var(--fs-small); color: var(--color-text-muted); }
-.certificate strong { display: block; font-weight: 600; color: var(--color-text); }
-
-@media (max-width: 900px) { .certificate { justify-self: start; } }
-
 /* ---------- Cards ---------- */
 .card {
   display: flex;
