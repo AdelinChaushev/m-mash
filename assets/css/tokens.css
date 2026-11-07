@@ -1,0 +1,125 @@
+/* ==========================================================================
+   М-Маш · Дизайн система — токени
+   Four colour families: graphite, steel blue, industrial white, safety amber.
+   Primitives → semantic roles. Components use the semantic roles only,
+   so a dark section just remaps the roles (see .on-dark in site.css).
+   ========================================================================== */
+
+:root {
+  /* ---------- Color primitives ---------- */
+
+  /* Graphite — text, dark sections, footer */
+  --graphite-950: #141618;
+  --graphite-900: #1d2023;
+  --graphite-800: #272b2f;
+  --graphite-700: #353a3f;
+  --graphite-600: #4a5056;
+  --graphite-500: #5e656b;
+  --graphite-400: #868c92;
+  --graphite-300: #9aa0a6;
+  --graphite-200: #c4c8cc;
+
+  /* Steel blue — labels, links, icons */
+  --steel-800: #233a50;
+  --steel-700: #2e4a66;
+  --steel-600: #3b5d7e;
+  --steel-500: #4f7396;
+  --steel-400: #7d9bb9;
+  --steel-200: #c8d5e2;
+  --steel-100: #e4ebf2;
+
+  /* Industrial white — backgrounds and surfaces */
+  --white: #ffffff;
+  --iwhite-50: #f9f9f7;
+  --iwhite-100: #f1f1ee;
+  --iwhite-200: #e6e6e1;
+  --iwhite-300: #d5d5cf;
+
+  /* Safety amber — actions and active states only */
+  --amber-100: #fff3d6;
+  --amber-400: #ffbe2e;
+  --amber-500: #f5a800;
+  --amber-600: #db9500;
+
+  /* ---------- Semantic roles · light context (default) ---------- */
+  --color-bg: var(--iwhite-100);
+  --color-surface: var(--white);
+  --color-surface-alt: var(--iwhite-200);
+  --color-inverse: var(--iwhite-50);
+  --color-text: var(--graphite-900);
+  --color-text-body: var(--graphite-700);
+  --color-text-muted: var(--graphite-500);        /* 5.2:1 on industrial white */
+  --color-label: var(--steel-600);                /* 6.1:1 on industrial white */
+  --color-border: var(--iwhite-300);
+  --color-border-strong: var(--graphite-900);
+  --color-border-input: var(--graphite-400);      /* 3.4:1 against white */
+  --color-accent: var(--amber-500);               /* graphite text on it — 8.2:1 */
+  --color-accent-hover: var(--amber-600);
+  --color-on-accent: var(--graphite-900);
+  --color-focus: var(--steel-500);
+  --color-error: #b42318;
+
+  /* ---------- Semantic roles · dark context ---------- */
+  --dark-bg: var(--graphite-900);
+  --dark-surface: var(--graphite-800);
+  --dark-text: var(--iwhite-50);
+  --dark-text-body: #cdd1d5;
+  --dark-text-muted: var(--graphite-300);
+  --dark-label: var(--steel-400);
+  --dark-border: rgb(255 255 255 / 0.12);
+  --dark-border-strong: rgb(255 255 255 / 0.45);
+
+  /* ---------- Typography ---------- */
+  --font-sans: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --fs-display: clamp(2.75rem, 1.4rem + 4.6vw, 5rem);
+  --fs-h1: clamp(2.25rem, 1.45rem + 3vw, 4rem);
+  --fs-h2: clamp(1.75rem, 1.25rem + 1.9vw, 2.875rem);
+  --fs-h3: clamp(1.25rem, 1.12rem + 0.5vw, 1.5rem);
+  --fs-h4: 1.125rem;
+  --fs-statement: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
+  --fs-lead: clamp(1.125rem, 1.04rem + 0.35vw, 1.3125rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9375rem;
+  --fs-xs: 0.8125rem;
+  --fs-label: 0.75rem;
+
+  --lh-tight: 1.04;
+  --lh-snug: 1.15;
+  --lh-body: 1.65;
+  --tracking-display: -0.035em;
+  --tracking-tight: -0.025em;
+  --tracking-label: 0.08em;
+  --measure: 40rem;
+
+  /* ---------- Space · 4px base ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --section-y: clamp(4.5rem, 3rem + 5.5vw, 8rem);
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --grid-gap: clamp(1rem, 0.6rem + 1.2vw, 1.5rem);
+  --container: 77.5rem;
+
+  /* ---------- Shape & depth ---------- */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --shadow-sm: 0 1px 2px rgb(29 32 35 / 0.06);
+  --shadow-md: 0 12px 32px -20px rgb(29 32 35 / 0.35);
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 150ms;
+  --dur: 240ms;
+  --dur-slow: 600ms;
+
+  /* ---------- Layers & chrome ---------- */
+  --z-header: 50;
+  --header-h: 4.75rem;
+}

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Дизайн система · М-Маш</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1d2023">
+  <link rel="icon" href="assets/img/favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <style>
+    /* Reference-page-only helpers */
+    main { padding-bottom: 3.5rem; }
+    .ds-section { padding-block: clamp(3rem, 2rem + 3vw, 5rem); border-top: 1px solid var(--color-border); }
+    .ds-group-title { margin: 2.25rem 0 1rem; }
+    .ds-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: 1rem; }
+    .ds-swatch { display: grid; gap: .4rem; }
+    .ds-chip { height: 5rem; border-radius: var(--radius-md); border: 1px solid rgb(29 32 35 / .1); }
+    .ds-swatch strong { font-size: .875rem; font-weight: 600; }
+    .ds-swatch code, .ds-type code { font-size: .75rem; color: var(--color-text-muted); }
+    .ds-type > div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 1.5rem; align-items: baseline; padding: 1.25rem 0; border-bottom: 1px solid var(--color-border); }
+    .ds-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+    .ds-stage { padding: 2rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface); }
+    .ds-stage.on-dark { background: var(--dark-bg); border-color: var(--dark-border); }
+    .ds-files { width: 100%; border-collapse: collapse; font-size: var(--fs-small); }
+    .ds-files th, .ds-files td { padding: .75rem 1rem .75rem 0; border-bottom: 1px solid var(--color-border); text-align: left; vertical-align: top; }
+    .ds-files th { font-weight: 600; }
+    .ds-files code { font-size: .8125rem; }
+    @media (max-width: 760px) { .ds-type > div { grid-template-columns: 1fr; gap: .5rem; } }
+  </style>
+</head>
+<body>
+  <header class="site-header" data-header>
+    <div class="container site-header__inner">
+      <a class="brand" href="index.html" aria-label="М-Маш ЕООД – начална страница">
+        <img class="brand__logo" src="assets/img/logo.svg" width="239" height="67" alt="M-MASH Ltd." onerror="this.onerror=null;this.classList.add('brand__logo--legacy');this.src='https://m-mash.net/images/logo.jpg'">
+      </a>
+      <a class="link-arrow" href="index.html">Към сайта</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero on-dark">
+      <div class="container page-hero__inner">
+        <h1 class="h1 page-hero__title">Дизайн система М-Маш</h1>
+        <p class="lead page-hero__lead">Цветове, типография, компоненти и снимки, върху които е изграден сайтът. Стойностите са в <code>assets/css/tokens.css</code>, компонентите – в <code>assets/css/site.css</code>.</p>
+      </div>
+    </section>
+
+    <div class="container">
+      <!-- Principles -->
+      <section class="ds-section">
+        <div class="section-head"><h2 class="h2">Принципи</h2></div>
+        <div class="grid grid--3">
+          <div class="card"><div class="card__body"><h3 class="card__title">Просто</h3><p class="card__text">Без анимации, преливки, декоративни фонове и етикети над заглавията. Съдържанието и снимките носят страницата.</p></div></div>
+          <div class="card"><div class="card__body"><h3 class="card__title">Реални снимки</h3><p class="card__text">Само собствени снимки на цеха, машините и детайлите. Никакви рисувани или стокови изображения.</p></div></div>
+          <div class="card"><div class="card__body"><h3 class="card__title">Кехлибарено за действие</h3><p class="card__text">Сигналното кехлибарено е само за основни бутони и активен елемент от менюто.</p></div></div>
+        </div>
+      </section>
+
+      <!-- Color -->
+      <section class="ds-section">
+        <div class="section-head">
+          <h2 class="h2">Цвят</h2>
+          <p class="muted">Графит, стоманено синьо, индустриално бяло и сигнално кехлибарено. Тъмните секции превключват ролите с класа <code>.on-dark</code>.</p>
+        </div>
+        <div class="ds-swatches">
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--graphite-900)"></div><strong>Графит</strong><code>--graphite-900 · текст, тъмни секции</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--graphite-500)"></div><strong>Графит 500</strong><code>вторичен текст · 5.2:1</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--steel-700)"></div><strong>Стоманено синьо</strong><code>--steel-700 · лента за запитване</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--steel-600)"></div><strong>Стоманено синьо 600</strong><code>връзки, икони · 6.1:1</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--iwhite-100)"></div><strong>Индустриално бяло</strong><code>--iwhite-100 · фон</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--white)"></div><strong>Бяло</strong><code>повърхности, хедър</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--amber-500)"></div><strong>Сигнално кехлибарено</strong><code>--amber-500 · бутони</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--amber-600)"></div><strong>Кехлибарено 600</strong><code>hover</code></div>
+        </div>
+      </section>
+
+      <!-- Type -->
+      <section class="ds-section">
+        <div class="section-head">
+          <h2 class="h2">Типография</h2>
+          <p class="muted">Един шрифт – Onest, с пълна кирилица. Размерите са флуидни (<code>clamp()</code>).</p>
+        </div>
+        <div class="ds-type">
+          <div><code>.hero__title</code><p class="hero__title" style="color:var(--color-text)">Прецизност</p></div>
+          <div><code>.h1</code><p class="h1">Нека обсъдим вашия проект.</p></div>
+          <div><code>.h2</code><p class="h2">Нашият подход</p></div>
+          <div><code>.h3</code><p class="h3">CNC струговане и механична обработка</p></div>
+          <div><code>.lead</code><p class="lead">От избора на подходящ производствен процес до изработката на детайла.</p></div>
+          <div><code>body</code><p>Работим по технически чертежи, мостри и индивидуални спецификации.</p></div>
+        </div>
+      </section>
+
+      <!-- Components -->
+      <section class="ds-section">
+        <div class="section-head"><h2 class="h2">Компоненти</h2></div>
+
+        <h3 class="h4 ds-group-title">Бутони</h3>
+        <div class="grid grid--2">
+          <div class="ds-stage ds-row">
+            <a class="btn btn--primary" href="#">Основен</a>
+            <a class="btn btn--secondary" href="#">Вторичен</a>
+            <a class="link-arrow" href="#">Текстова връзка</a>
+          </div>
+          <div class="ds-stage on-dark ds-row">
+            <a class="btn btn--primary" href="#">Основен</a>
+            <a class="btn btn--light" href="#">Вторичен</a>
+            <a class="link-arrow" href="#">Текстова връзка</a>
+          </div>
+        </div>
+
+        <h3 class="h4 ds-group-title">Карта със снимка</h3>
+        <div class="grid grid--3">
+          <a class="card" href="#">
+            <figure class="photo" data-label="Снимка 3:2&#10;assets/img/…jpg"><img src="assets/img/example.jpg" alt="" onerror="this.parentNode.classList.add('photo--missing')"></figure>
+            <div class="card__body"><h3 class="card__title">Заглавие</h3><p class="card__text">Кратко описание в две-три реда.</p><span class="card__more">Научете повече</span></div>
+          </a>
+          <div class="card"><div class="card__body"><h3 class="card__title">Текстова карта</h3><p class="card__text">Без снимка – за услуги и кратки описания.</p></div></div>
+          <div class="panel"><p class="panel__title">Панел</p><p class="muted">Неутрален контейнер за списъци и формуляри.</p></div>
+        </div>
+
+        <h3 class="h4 ds-group-title">Списъци</h3>
+        <div class="grid grid--2">
+          <div class="ds-stage"><ul class="bullets"><li>Челно струговане</li><li>Надлъжно струговане</li><li>Нарязване на резби</li></ul></div>
+          <div class="ds-stage"><ul class="checklist"><li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span><strong>Заглавие на точка</strong>Пояснителен текст към точката.</span></li></ul></div>
+        </div>
+
+        <h3 class="h4 ds-group-title">Обявление с документи</h3>
+        <div class="ds-stage">
+          <ol class="notices">
+            <li class="notice">
+              <time class="notice__date" datetime="2026-10-29">29.10.2026 г.</time>
+              <div class="notice__body">
+                <p class="notice__tag">Категория на обявлението</p>
+                <p class="notice__text">Текстът на обявлението се публикува дословно, без съкращения.</p>
+                <ul class="docs">
+                  <li><a class="doc" href="#"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span><span class="doc__name">Обявление</span><span class="doc__meta">PDF · 238 KB</span></span></a></li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <h3 class="h4 ds-group-title">Полета</h3>
+        <div class="ds-stage form-grid">
+          <div class="field"><label class="field__label" for="ds-a">Задължително<span class="req" aria-hidden="true">*</span></label><input class="input" id="ds-a" placeholder="Текстово поле"></div>
+          <div class="field"><label class="field__label" for="ds-b">Избор</label><select class="input" id="ds-b"><option>Стомана</option><option>Чугун</option></select></div>
+        </div>
+      </section>
+
+      <!-- Photos & logo files -->
+      <section class="ds-section">
+        <div class="section-head">
+          <h2 class="h2">Снимки и лого</h2>
+          <p class="muted">Сайтът очаква следните файлове в <code>assets/img/</code>. Докато файлът липсва, на мястото му се вижда неутрално поле с името му; логото временно се зарежда от стария сайт.</p>
+        </div>
+        <table class="ds-files">
+          <thead><tr><th>Файл</th><th>Какво да показва</th><th>Къде</th><th>Размер</th></tr></thead>
+          <tbody>
+            <tr><td><code>logo.svg</code></td><td>Логото, тъмна версия</td><td>Хедър на всички страници</td><td>вектор</td></tr>
+            <tr><td><code>logo-white.svg</code></td><td>Логото, бяла версия</td><td>Долен колонтитул</td><td>вектор</td></tr>
+            <tr><td><code>hero.jpg</code></td><td>Машина или цех в работа, хоризонтално</td><td>Начало – горна снимка</td><td>2400 × 1350</td></tr>
+            <tr><td><code>ceh.jpg</code></td><td>Общ изглед на цеха</td><td>Начало – „Вашият чертеж…“</td><td>1600 × 1200</td></tr>
+            <tr><td><code>cnc-strugovane.jpg</code></td><td>CNC струг / струговане</td><td>Начало, Възможности</td><td>1600 × 1200</td></tr>
+            <tr><td><code>frezovane.jpg</code></td><td>Фрезова машина / фрезоване</td><td>Начало, Възможности</td><td>1600 × 1200</td></tr>
+            <tr><td><code>shlifovane.jpg</code></td><td>Шлифовъчна машина / шлифоване</td><td>Начало, Възможности</td><td>1600 × 1200</td></tr>
+            <tr><td><code>detayli.jpg</code></td><td>Готови детайли</td><td>Услуги</td><td>1600 × 1200</td></tr>
+            <tr><td><code>kontrol.jpg</code></td><td>Измерване / контрол на детайл</td><td>Качество</td><td>1600 × 1200</td></tr>
+            <tr><td><code>sgrada.jpg</code></td><td>Сградата на М-Маш</td><td>За нас (временно от стария сайт)</td><td>1600 × 1200</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer on-dark" style="padding-top:0">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>© <span data-year>2026</span> М-Маш ЕООД · Дизайн система v3.0</p>
+        <p>tokens.css · site.css · site.js</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/site.js" defer></script>
+</body>
+</html>
