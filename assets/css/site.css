@@ -197,7 +197,6 @@ p { text-wrap: pretty; }
 .topbar a { text-decoration: none; transition: color var(--dur-fast); }
 .topbar a:hover { color: var(--white); }
 .topbar__end { display: flex; align-items: center; gap: 1.5rem; flex: none; }
-.topbar__badge { font-size: var(--fs-xs); font-weight: 600; color: var(--iwhite-50); white-space: nowrap; }
 
 /* Language switch: the current language is marked like the current page in the menu */
 .lang { display: flex; gap: 0.5rem; font-weight: 600; }
@@ -209,7 +208,7 @@ p { text-wrap: pretty; }
   .topbar__item:first-child { display: none; }
 }
 @media (max-width: 800px) {
-  .topbar__item--wide, .topbar__badge { display: none; }
+  .topbar__item--wide { display: none; }
 }
 @media (max-width: 500px) {
   .topbar__item--mid { display: none; }
@@ -486,6 +485,15 @@ p { text-wrap: pretty; }
 }
 .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .photo--missing img { display: none; }
+
+/* The ISO certificate on the home page: shown whole, and the scan opens at full size */
+.certificate { display: grid; gap: 0.75rem; width: min(100%, 20rem); justify-self: end; }
+.certificate a { display: block; border-radius: var(--radius-md); }
+.certificate img { width: 100%; border-radius: var(--radius-md); }
+.certificate figcaption { font-size: var(--fs-small); color: var(--color-text-muted); }
+.certificate strong { display: block; font-weight: 600; color: var(--color-text); }
+
+@media (max-width: 900px) { .certificate { justify-self: start; } }
 
 /* ---------- Cards ---------- */
 .card {
