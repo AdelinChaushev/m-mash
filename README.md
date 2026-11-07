@@ -31,7 +31,7 @@ The Актуално section is translated on each home page: `en/index.html#new
 
 ## Photos and logo: drop them into `assets/img/`
 
-The pages already point at these files. Save each one under exactly this name and it appears on the site, with no code changes. Until a file is there, its slot shows a neutral grey box with the file name; in the home hero, the slide stays dark and its file name shows beside the bars at the bottom. The logo falls back to the old `logo.jpg`, and `hero.jpg` and `sgrada.jpg` fall back to the building photo on the old server.
+The pages already point at these files. Save each one under exactly this name and it appears on the site, with no code changes. Until a file is there, its slot shows a neutral grey box with the file name; in the home hero, the slide stays dark and names the file in its top corner. The logo falls back to the old `logo.jpg`, and `hero.jpg` and `sgrada.jpg` fall back to the building photo on the old server.
 
 | File | What it should show | Used on | Size |
 | --- | --- | --- | --- |
@@ -50,7 +50,7 @@ The pages already point at these files. Save each one under exactly this name an
 
 Export JPGs at about 80% quality so each stays under ~400 KB.
 
-The home hero shows its three photos in turn, a new one every six seconds, behind the same headline and buttons. The bars under the buttons pick a photo, the button beside them pauses the change, and on a phone a sideways swipe moves to the next or previous photo. For visitors whose system asks for less motion, the photos start paused. To add a fourth photo, copy the `hero-3.jpg` line in the hero of all four home pages and change the file name in its `data-label` and `src`. `site.js` makes one bar per photo.
+The home hero shows its three photos in turn, a new one every six seconds, behind the same headline and buttons. Under the buttons, centred, two arrows move to the previous or next photo and the bars between them pick any photo; on a phone a sideways swipe does the same. While the pointer or keyboard focus is on the arrows and bars, the photo waits. For visitors whose system asks for less motion, the photo changes only when they choose. To add a fourth photo, copy the `hero-3.jpg` line in the hero of all four home pages and change the file name in its `data-label` and `src`. `site.js` makes one bar per photo.
 
 The browser tab icon is `assets/img/favicon.ico`, cut from the round symbol in the original logo (white on Steel Blue, at 16, 32 and 48 px). The two gears in the footer are `assets/img/footer-gears.svg`, placed by the `.site-footer::before` rule in `site.css`. The gear rising from the footer's top edge is `assets/img/footer-edge-gear.svg`, placed by the `main::after` rule. It stands in the bottom padding of the last section on every page, so end a new page with the band or a `.section`, which leave room for it.
 

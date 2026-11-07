@@ -400,8 +400,8 @@ p { text-wrap: pretty; }
 .section-head { display: grid; gap: 0.75rem; max-width: 48rem; margin-bottom: clamp(2rem, 1.25rem + 2.5vw, 3.5rem); }
 
 /* ---------- Home hero: full-width photographs that take turns behind the headline ----------
-   Each .hero__slide holds one photo. site.js adds a bar for each photo and a pause button
-   below the buttons, and shows the next photo every six seconds. Without JavaScript the first photo stays. */
+   Each .hero__slide holds one photo. site.js adds arrows and a bar for each photo below the buttons,
+   and shows the next photo every six seconds. Without JavaScript the first photo stays. */
 .hero {
   position: relative;
   isolation: isolate;
@@ -418,9 +418,17 @@ p { text-wrap: pretty; }
 .hero__slide.is-active { z-index: 1; opacity: 1; transition: opacity 1s ease-in-out; }
 .hero__slide img { width: 100%; height: 100%; object-fit: cover; }
 .hero__slide::after { content: ""; position: absolute; inset: 0; background: rgb(20 22 24 / 0.55); }
-/* Until its photo exists, a slide stays dark; site.js names the file at the end of the row of bars */
+/* Until its photo exists, a slide stays dark and names the file in its top corner */
 .hero__slide--missing { background: var(--graphite-800); }
 .hero__slide--missing img { display: none; }
+.hero__slide--missing::after {
+  content: attr(data-label);
+  inset: 1rem max(var(--gutter), (100% - var(--container)) / 2) auto auto;
+  background: none;
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
 .hero__inner {
   display: flex;
   flex: 1;
@@ -434,9 +442,9 @@ p { text-wrap: pretty; }
 .hero__subtitle { max-width: 34rem; font-size: var(--fs-lead); line-height: 1.5; color: var(--color-text-body); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem; }
 
-/* The bars and the pause button. The current photo's bar is amber. */
+/* Arrows and one bar per photo, centred under the buttons. The current photo's bar is amber. */
 .hero:has(.hero__bar) .hero__inner { padding-bottom: 1.5rem; }
-.hero__bar { display: flex; align-items: center; padding-bottom: 1.25rem; }
+.hero__bar { display: flex; align-items: center; justify-content: center; padding-bottom: 1.25rem; }
 .hero__control {
   display: grid;
   flex: none;
@@ -450,14 +458,14 @@ p { text-wrap: pretty; }
   color: var(--color-text);
   cursor: pointer;
 }
-.hero__control:first-child { margin-left: -0.5rem; }
-.hero__control:focus-visible { outline-offset: -4px; }
+.hero__arrow { border: 1px solid var(--color-border-strong); transition: border-color var(--dur-fast), background-color var(--dur-fast); }
+.hero__arrow:hover { border-color: var(--color-text); background: rgb(255 255 255 / 0.1); }
+.hero__arrow:first-child { margin-right: 0.5rem; }
+.hero__arrow:last-child { margin-left: 0.5rem; }
+.hero__dot:focus-visible { outline-offset: -4px; }
 .hero__dot::before { content: ""; width: 1.75rem; height: 3px; background: var(--color-border-strong); transition: background-color var(--dur-fast); }
 .hero__dot:hover::before { background: var(--color-text); }
 .hero__dot[aria-current="true"]::before { background: var(--color-accent); }
-/* On narrow phones the file name moves under its folder rather than breaking at the hyphen */
-.hero__note { min-width: 0; margin-left: auto; padding-left: 1rem; font-size: var(--fs-xs); line-height: 1.6; text-align: right; overflow-wrap: anywhere; color: var(--color-text-muted); }
-.hero__note span { display: inline-block; }
 
 @media (max-width: 560px) {
   .hero { min-height: 30rem; }

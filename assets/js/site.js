@@ -6,19 +6,19 @@
   const strings = {
     bg: {
       openMenu: 'Отвори менюто', closeMenu: 'Затвори менюто', copy: 'Копирай', copied: 'Копирано', greeting: 'Здравейте,', subject: 'Запитване от сайта',
-      photos: 'Снимки', photo: 'Снимка', of: 'от', pause: 'Спри смяната на снимките', play: 'Пусни смяната на снимките',
+      photos: 'Снимки', photo: 'Снимка', of: 'от', prev: 'Предишна снимка', next: 'Следваща снимка',
     },
     en: {
       openMenu: 'Open menu', closeMenu: 'Close menu', copy: 'Copy', copied: 'Copied', greeting: 'Hello,', subject: 'Inquiry from the website',
-      photos: 'Photos', photo: 'Photo', of: 'of', pause: 'Pause the slideshow', play: 'Play the slideshow',
+      photos: 'Photos', photo: 'Photo', of: 'of', prev: 'Previous photo', next: 'Next photo',
     },
     de: {
       openMenu: 'Menü öffnen', closeMenu: 'Menü schließen', copy: 'Kopieren', copied: 'Kopiert', greeting: 'Guten Tag,', subject: 'Anfrage über die Website',
-      photos: 'Fotos', photo: 'Foto', of: 'von', pause: 'Bildwechsel anhalten', play: 'Bildwechsel starten',
+      photos: 'Fotos', photo: 'Foto', of: 'von', prev: 'Vorheriges Foto', next: 'Nächstes Foto',
     },
     it: {
       openMenu: 'Apri il menu', closeMenu: 'Chiudi il menu', copy: 'Copia', copied: 'Copiato', greeting: 'Buongiorno,', subject: 'Richiesta dal sito',
-      photos: 'Foto', photo: 'Foto', of: 'di', pause: 'Ferma lo scorrimento delle foto', play: 'Avvia lo scorrimento delle foto',
+      photos: 'Foto', photo: 'Foto', of: 'di', prev: 'Foto precedente', next: 'Foto successiva',
     },
   };
   const text = strings[root.lang] || strings.bg;
@@ -59,76 +59,62 @@
   });
 
   /* Home hero slides: the photos take turns behind the headline every six seconds.
-     One bar per photo, a pause button, and a swipe on touch screens.
-     For visitors whose system asks for less motion, the photos start paused. */
+     Arrows and one bar per photo, centred under the buttons, and a swipe on touch screens.
+     For visitors whose system asks for less motion, the photo changes only when they choose. */
   const hero = document.querySelector('[data-slides]');
   const slides = hero ? [...hero.querySelectorAll('.hero__slide')] : [];
   if (slides.length > 1) {
+    const autoplay = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let current = Math.max(0, slides.findIndex((slide) => slide.classList.contains('is-active')));
-    let playing = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let held = false;
+    let hovered = false;
+    let focused = false;
     let timer;
 
-    const control = (className, html) => {
+    const control = (className, label, icon = '') => {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = `hero__control ${className}`;
-      button.innerHTML = html;
+      button.innerHTML = `${icon}<span class="visually-hidden">${label}</span>`;
       return button;
     };
+    const chevron = (path) => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${path}"/></svg>`;
 
     const schedule = () => {
       clearTimeout(timer);
-      if (playing && !held && !document.hidden) timer = setTimeout(() => show(current + 1), 6000);
+      if (autoplay && !hovered && !focused && !document.hidden) timer = setTimeout(() => show(current + 1), 6000);
     };
-
-    /* A slide whose photo is missing stays dark; the note names the file it waits for */
-    const note = document.createElement('p');
-    note.className = 'hero__note';
-    note.setAttribute('aria-hidden', 'true');
-    note.innerHTML = '<span></span><span></span>';
-    const [folder, file] = note.children;
-    const name = () => {
-      const slide = slides[current];
-      const path = slide.classList.contains('hero__slide--missing') ? slide.dataset.label || '' : '';
-      const cut = path.lastIndexOf('/') + 1;
-      folder.textContent = path.slice(0, cut);
-      file.textContent = path.slice(cut);
-    };
-    slides.forEach((slide) => slide.querySelector('img')?.addEventListener('error', name));
 
     const show = (index) => {
       current = (index + slides.length) % slides.length;
       slides.forEach((slide, i) => slide.classList.toggle('is-active', i === current));
       dots.forEach((dot, i) => (i === current ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current')));
-      name();
       schedule();
     };
 
+    const prev = control('hero__arrow', text.prev, chevron('m15 18-6-6 6-6'));
+    const next = control('hero__arrow', text.next, chevron('m9 18 6-6-6-6'));
+    prev.addEventListener('click', () => show(current - 1));
+    next.addEventListener('click', () => show(current + 1));
     const dots = slides.map((_, index) => {
-      const dot = control('hero__dot', `<span class="visually-hidden">${text.photo} ${index + 1} ${text.of} ${slides.length}</span>`);
+      const dot = control('hero__dot', `${text.photo} ${index + 1} ${text.of} ${slides.length}`);
       dot.addEventListener('click', () => show(index));
-      /* While a bar has keyboard focus the photo waits, so the amber bar stays where the visitor is */
-      dot.addEventListener('focus', () => { held = dot.matches(':focus-visible'); schedule(); });
-      dot.addEventListener('blur', () => { held = false; schedule(); });
       return dot;
     });
-
-    const pause = control('hero__pause', '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path/></svg><span class="visually-hidden"></span>');
-    const setPlaying = (value) => {
-      playing = value;
-      pause.querySelector('path').setAttribute('d', playing ? 'M9 5v14M15 5v14' : 'M8 5.5v13l10-6.5Z');
-      pause.querySelector('.visually-hidden').textContent = playing ? text.pause : text.play;
-      schedule();
-    };
-    pause.addEventListener('click', () => setPlaying(!playing));
 
     const bar = document.createElement('div');
     bar.className = 'container hero__bar';
     bar.setAttribute('role', 'group');
     bar.setAttribute('aria-label', text.photos);
-    bar.append(...dots, pause, note);
+    bar.append(prev, ...dots, next);
     hero.append(bar);
+
+    /* The photo waits while the pointer or keyboard focus is on the arrows and bars, so it doesn't change under the visitor */
+    bar.addEventListener('pointerenter', () => { hovered = true; schedule(); });
+    bar.addEventListener('pointerleave', () => { hovered = false; schedule(); });
+    bar.addEventListener('focusin', (event) => { focused = event.target.matches(':focus-visible'); schedule(); });
+    bar.addEventListener('focusout', (event) => {
+      if (!bar.contains(event.relatedTarget)) { focused = false; schedule(); }
+    });
 
     /* Swipe left for the next photo, right for the previous one */
     let start = null;
@@ -144,7 +130,6 @@
     hero.addEventListener('pointercancel', () => { start = null; });
 
     document.addEventListener('visibilitychange', schedule);
-    setPlaying(playing);
     show(current);
   }
 
