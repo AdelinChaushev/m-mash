@@ -27,17 +27,19 @@ The English pages are in `en/`, the German pages in `de/` and the Italian pages 
 | `kachestvo.html` | `en/quality.html` | `de/qualitaet.html` | `it/qualita.html` |
 | `kontakti.html` | `en/contact.html` | `de/kontakt.html` | `it/contatti.html` |
 
-The Актуално section is translated on each home page: `en/index.html#news`, `de/index.html#aktuelles` and `it/index.html#notizie`. The linked documents and the EU funding logos stay in Bulgarian, and each section says so. Long words in German headings break only at the `&shy;` marks in the HTML, so add one at the compound joint when writing a new long heading. The few texts that `assets/js/site.js` writes itself (menu label, copy button, email greeting and subject) are in the `strings` list at the top of that file.
+The Актуално section is translated on each home page: `en/index.html#news`, `de/index.html#aktuelles` and `it/index.html#notizie`. The linked documents and the EU funding logos stay in Bulgarian, and each section says so. Long words in German headings break only at the `&shy;` marks in the HTML, so add one at the compound joint when writing a new long heading. The few texts that `assets/js/site.js` writes itself (menu label, hero photo buttons, copy button, email greeting and subject) are in the `strings` list at the top of that file.
 
 ## Photos and logo: drop them into `assets/img/`
 
-The pages already point at these files. Save each one under exactly this name and it appears on the site, with no code changes. Until a file is there, its slot shows a neutral grey box with the file name. The logo falls back to the old `logo.jpg`, and `hero.jpg` and `sgrada.jpg` fall back to the building photo on the old server.
+The pages already point at these files. Save each one under exactly this name and it appears on the site, with no code changes. Until a file is there, its slot shows a neutral grey box with the file name; in the home hero, the slide stays dark and its file name shows beside the bars at the bottom. The logo falls back to the old `logo.jpg`, and `hero.jpg` and `sgrada.jpg` fall back to the building photo on the old server.
 
 | File | What it should show | Used on | Size |
 | --- | --- | --- | --- |
 | `logo.svg` | Logo, dark version | Header, all pages | vector |
 | `logo-white.svg` | Logo, white version | Footer | vector |
-| `hero.jpg` | Machine or workshop at work, landscape | Home hero | 2400 × 1350 |
+| `hero.jpg` | Machine or workshop at work, landscape | Home hero, slide 1 | 2400 × 1350 |
+| `hero-2.jpg` | Machining close-up, landscape | Home hero, slide 2 | 2400 × 1350 |
+| `hero-3.jpg` | Finished parts, landscape | Home hero, slide 3 | 2400 × 1350 |
 | `ceh.jpg` | Workshop overview | Home, "Вашият чертеж…" | 1600 × 1200 |
 | `cnc-strugovane.jpg` | CNC lathe / turning | Home, Възможности | 1600 × 1200 |
 | `frezovane.jpg` | Milling | Home, Възможности | 1600 × 1200 |
@@ -48,13 +50,15 @@ The pages already point at these files. Save each one under exactly this name an
 
 Export JPGs at about 80% quality so each stays under ~400 KB.
 
+The home hero shows its three photos in turn, a new one every six seconds, behind the same headline and buttons. The bars under the buttons pick a photo, the button beside them pauses the change, and on a phone a sideways swipe moves to the next or previous photo. For visitors whose system asks for less motion, the photos start paused. To add a fourth photo, copy the `hero-3.jpg` line in the hero of all four home pages and change the file name in its `data-label` and `src`. `site.js` makes one bar per photo.
+
 The browser tab icon is `assets/img/favicon.ico`, cut from the round symbol in the original logo (white on Steel Blue, at 16, 32 and 48 px). The two gears in the footer are `assets/img/footer-gears.svg`, placed by the `.site-footer::before` rule in `site.css`. The gear rising from the footer's top edge is `assets/img/footer-edge-gear.svg`, placed by the `main::after` rule. It stands in the bottom padding of the last section on every page, so end a new page with the band or a `.section`, which leave room for it.
 
 ## Design system
 
 - `assets/css/tokens.css`: the four colour families (graphite, steel blue, industrial white, safety amber), type scale and spacing. Change values here only.
 - `assets/css/site.css`: components built on the tokens. `.on-dark` remaps the tokens for dark sections.
-- `assets/js/site.js`: mobile menu, copy buttons and the contact form.
+- `assets/js/site.js`: mobile menu, hero photos, copy buttons and the contact form.
 
 ## Contact form and details (`kontakti.html`)
 

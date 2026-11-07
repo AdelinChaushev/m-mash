@@ -85,9 +85,13 @@
   </header>
 
   <main id="main">
-    <!-- Hero: full-width photograph with the headline on it -->
-    <section class="hero on-dark" aria-labelledby="hero-title">
-      <img class="hero__bg" src="../assets/img/hero.jpg" width="2400" height="1350" alt="" fetchpriority="high" onerror="this.onerror=null;this.src='https://m-mash.net/images/M-MASH%20OFFICE%201.0.jpg'">
+    <!-- Hero: full-width photographs that take turns behind the headline -->
+    <section class="hero on-dark" aria-labelledby="hero-title" data-slides>
+      <div class="hero__slides" aria-hidden="true">
+        <div class="hero__slide is-active"><img src="../assets/img/hero.jpg" width="2400" height="1350" alt="" fetchpriority="high" onerror="this.onerror=null;this.src='https://m-mash.net/images/M-MASH%20OFFICE%201.0.jpg'"></div>
+        <div class="hero__slide" data-label="assets/img/hero-2.jpg"><img src="../assets/img/hero-2.jpg" width="2400" height="1350" alt="" fetchpriority="low" onerror="this.parentNode.classList.add('hero__slide--missing')"></div>
+        <div class="hero__slide" data-label="assets/img/hero-3.jpg"><img src="../assets/img/hero-3.jpg" width="2400" height="1350" alt="" fetchpriority="low" onerror="this.parentNode.classList.add('hero__slide--missing')"></div>
+      </div>
       <div class="container hero__inner">
         <h1 class="hero__title" id="hero-title">Präzision in jedem Detail.</h1>
         <p class="hero__subtitle">Metallkomponenten nach Zeichnung. Fertigung für Industriepartner.</p>

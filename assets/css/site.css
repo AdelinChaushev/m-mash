@@ -400,25 +400,70 @@ p { text-wrap: pretty; }
 /* ---------- Section heads ---------- */
 .section-head { display: grid; gap: 0.75rem; max-width: 48rem; margin-bottom: clamp(2rem, 1.25rem + 2.5vw, 3.5rem); }
 
-/* ---------- Home hero: full-width photograph with the headline on it ---------- */
-.hero { position: relative; isolation: isolate; overflow: hidden; background: var(--graphite-900); }
-.hero__bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
-.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgb(20 22 24 / 0.55); }
+/* ---------- Home hero: full-width photographs that take turns behind the headline ----------
+   Each .hero__slide holds one photo. site.js adds a bar for each photo and a pause button
+   below the buttons, and shows the next photo every six seconds. Without JavaScript the first photo stays. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(28rem, 64vh, 37rem);
+  overflow: hidden;
+  background: var(--graphite-900);
+  touch-action: pan-y pinch-zoom;
+}
+.hero__slides { position: absolute; inset: 0; z-index: -1; }
+/* The new photo fades in over the old one, which is hidden once the fade is over */
+.hero__slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0s 1s; }
+.hero__slide.is-active { z-index: 1; opacity: 1; transition: opacity 1s ease-in-out; }
+.hero__slide img { width: 100%; height: 100%; object-fit: cover; }
+.hero__slide::after { content: ""; position: absolute; inset: 0; background: rgb(20 22 24 / 0.55); }
+/* Until its photo exists, a slide stays dark; site.js names the file at the end of the row of bars */
+.hero__slide--missing { background: var(--graphite-800); }
+.hero__slide--missing img { display: none; }
 .hero__inner {
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   gap: 1.25rem;
-  min-height: clamp(28rem, 64vh, 37rem);
   padding-block: 4rem;
 }
 .hero__title { max-width: 15ch; font-size: clamp(2.5rem, 1.5rem + 3.6vw, 4.5rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; }
 .hero__subtitle { max-width: 34rem; font-size: var(--fs-lead); line-height: 1.5; color: var(--color-text-body); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem; }
 
+/* The bars and the pause button. The current photo's bar is amber. */
+.hero:has(.hero__bar) .hero__inner { padding-bottom: 1.5rem; }
+.hero__bar { display: flex; align-items: center; padding-bottom: 1.25rem; }
+.hero__control {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  cursor: pointer;
+}
+.hero__control:first-child { margin-left: -0.5rem; }
+.hero__control:focus-visible { outline-offset: -4px; }
+.hero__dot::before { content: ""; width: 1.75rem; height: 3px; background: var(--color-border-strong); transition: background-color var(--dur-fast); }
+.hero__dot:hover::before { background: var(--color-text); }
+.hero__dot[aria-current="true"]::before { background: var(--color-accent); }
+/* On narrow phones the file name moves under its folder rather than breaking at the hyphen */
+.hero__note { min-width: 0; margin-left: auto; padding-left: 1rem; font-size: var(--fs-xs); line-height: 1.6; text-align: right; overflow-wrap: anywhere; color: var(--color-text-muted); }
+.hero__note span { display: inline-block; }
+
 @media (max-width: 560px) {
-  .hero__inner { min-height: 30rem; padding-block: 3rem; }
+  .hero { min-height: 30rem; }
+  .hero__inner { padding-block: 3rem; }
+  .hero:has(.hero__bar) .hero__inner { padding-bottom: 1rem; }
   .hero__actions, .hero__actions .btn { width: 100%; }
 }
 
