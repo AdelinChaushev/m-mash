@@ -86,7 +86,7 @@ The same message covers very long descriptions. The form's text travels inside t
 
 The recipient is set in two places on the form in `kontakti.html`: the `data-inquiry` attribute, and the `action` used when JavaScript is off.
 
-The phone number in the top bar, the footer and on the contact page belongs to Милчо Милчев (управител). Мария Милчева (мениджър продажби) has no phone or email on the site yet.
+The phone number in the top bar, the footer and on the contact page belongs to Милчо Милчев (управител). Мария Милчева (мениджър продажби) has her own number, +359 899 703 510, shown under her name on the contact page only; she has no email on the site yet.
 
 The map on the contact page is a Google Maps embed, with no API key needed. It searches for the company's Google listing (М-МАШ ЕООД) because Google doesn't recognise the number 307050. To change the pin, edit the `q=` text in the iframe `src` in `kontakti.html`. The address itself appears in the contact card, above the map and in the footer of every page. The map loads from Google, so a privacy policy should mention it.
 
