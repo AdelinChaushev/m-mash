@@ -50,6 +50,22 @@ The pages already point at these files. Save each one under exactly this name an
 
 Export JPGs at about 80% quality so each stays under ~400 KB.
 
+### Stock photos in use
+
+Nine of these photos are free stock photos, in place until M-MASH has its own: every photo above except `sgrada.jpg`. They come from Unsplash and Pexels, whose licences allow free use on a business website without paying or crediting anyone; the photographers keep the copyright, and the photos must not be resold as they are. All are real photographs (each carries the camera's data), with no recognisable faces or company logos. Because they show other companies' machines, their descriptions on the pages (the `alt` texts) say what is in the picture rather than calling it M-MASH's. To use your own photo instead, save it over the same file name; if it shows M-MASH's own workshop or parts, its description can say so again.
+
+| File | Photo | Photographer | Source |
+| --- | --- | --- | --- |
+| `hero.jpg` | CNC machine spindle with coolant lines | Daniel Smyth | [Pexels](https://www.pexels.com/photo/close-up-shot-of-a-cnc-machine-8865187/) |
+| `hero-2.jpg` | CNC milling with coolant splashing | Daniel Smyth | [Pexels](https://www.pexels.com/photo/close-up-of-machine-splashing-milk-8956445/) |
+| `hero-3.jpg` | Rows of finished turned steel parts | Hans Westbeek | [Unsplash](https://unsplash.com/photos/rows-of-shiny-metal-components-on-a-textured-surface-fimoFLchbuk) |
+| `ceh.jpg` | Machining hall | Yetkin Ağaç | [Pexels](https://www.pexels.com/photo/industrial-factory-floor-with-machinery-and-crates-34718922/) |
+| `cnc-strugovane.jpg` | CNC lathe turning a steel rod | Sven Daniel | [Unsplash](https://unsplash.com/photos/metal-rod-machining-on-lathe-eaanLTG7TCU) |
+| `frezovane.jpg` | End mill cutting an aluminium block | Daniel Smyth | [Pexels](https://www.pexels.com/photo/close-up-photo-of-metal-tool-10406128/) |
+| `shlifovane.jpg` | A spinning disc being finished on a machine | Alex Domínguez | [Pexels](https://www.pexels.com/photo/person-in-black-gloves-grinding-an-object-in-a-machine-7018173/) |
+| `detayli.jpg` | Two machined parts on technical drawings | EnCata PD | [Unsplash](https://unsplash.com/photos/two-metal-mechanical-parts-on-engineering-blueprints-SRqJ3eli-4I) |
+| `kontrol.jpg` | Measuring a part with a digital caliper | Hans Westbeek | [Unsplash](https://unsplash.com/photos/hands-using-a-digital-caliper-to-measure-metal-part-_luiFaaZU6k) |
+
 The home hero shows its three photos in turn, a new one every six seconds, behind the same headline and buttons. Under the buttons, centred, two arrows move to the previous or next photo and the bars between them pick any photo; on a phone a sideways swipe does the same. While the pointer or keyboard focus is on the arrows and bars, the photo waits. For visitors whose system asks for less motion, the photo changes only when they choose. To add a fourth photo, copy the `hero-3.jpg` line in the hero of all four home pages and change the file name in its `data-label` and `src`. `site.js` makes one bar per photo.
 
 The browser tab icon is `assets/img/favicon.ico`, cut from the round symbol in the original logo (white on Steel Blue, at 16, 32 and 48 px). The two gears in the footer are `assets/img/footer-gears.svg`, placed by the `.site-footer::before` rule in `site.css`. The gear rising from the footer's top edge is `assets/img/footer-edge-gear.svg`, placed by the `main::after` rule. It stands in the bottom padding of the last section on every page, so end a new page with the band or a `.section`, which leave room for it.
