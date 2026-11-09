@@ -80,6 +80,8 @@ The browser tab icon is `assets/img/favicon.ico`, cut from the round symbol in t
 - `assets/css/site.css`: components built on the tokens. `.on-dark` remaps the tokens for dark sections.
 - `assets/js/site.js`: mobile menu, hero photos, copy buttons and the contact form.
 
+Every page loads these three files with a version after the name, `?v=2026-11-09`, and `site.css` loads the banner the same way. GitHub Pages lets browsers keep each file for 10 minutes, so without the version a browser could show a new page with an old stylesheet. When you change one of these files, or the banner, change that date in all 25 pages and in `site.css`. Browsers then fetch the new files at once.
+
 ## Contact form and details (`kontakti.html`)
 
 A short form with six required fields: first name, surname, company, phone number, work email and a description of the part. It sends nothing itself, so the site needs no server code. The button opens the visitor's own email program with a ready message to `info@m-mash.net`. The company goes in the subject, the description in the message, and the name, company, phone and email below it as a signature. Visitors can attach drawings or other files there, and they send it from their own address, so a reply goes straight back to them.

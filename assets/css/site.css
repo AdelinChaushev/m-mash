@@ -249,7 +249,7 @@ p { text-wrap: pretty; }
   min-width: 0;
   aspect-ratio: 760 / 366;
   max-height: min(9.375rem, 24vw);
-  background: var(--steel-700) url("../img/banner.png") left center / auto 100% no-repeat;
+  background: var(--steel-700) url("../img/banner.png?v=2026-11-09") left center / auto 100% no-repeat;
 }
 
 /* Logo: assets/img/logo.svg, in the footer.
