@@ -12,7 +12,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scroll-padding-top: calc(var(--header-h) + 1.5rem);
+  scroll-padding-top: 1.5rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -216,26 +216,44 @@ p { text-wrap: pretty; }
 }
 
 /* ---------- Header & navigation ---------- */
+/* The menu row has the page's own background, like the footer. It holds the big banner, so it is too tall
+   to stay on screen while scrolling: it scrolls away with the page, as on the old m-mash.net site. */
 .site-header {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: var(--z-header);
-  background: var(--white);
-  border-bottom: 1px solid var(--color-border);
-  transition: box-shadow var(--dur);
+  background: var(--color-bg);
 }
-.site-header.is-scrolled { box-shadow: 0 10px 24px -18px rgb(29 32 35 / 0.35); }
 
+/* The banner on the left, the menu (or on phones the menu button) on the right. The row has no padding at the
+   top, bottom or left, so the banner touches the top bar, the section below and the left edge of the screen.
+   On the right the menu lines up with the page content. */
 .site-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  height: var(--header-h);
+  max-width: none;
+  padding-left: 0;
+  padding-right: max(var(--gutter), (100% - var(--container)) / 2);
 }
 
-/* Logo: assets/img/logo.svg (dark) and logo-white.svg (light).
-   Until those files exist, the old white-on-blue logo.jpg is used and
+/* The old M-MASH banner, assets/img/banner.png, in the logo's place at the left of the menu row. The file is
+   the 760 × 366 picture with its plain right edge (dark top strip, blue panel) drawn out to 6000 px, so the
+   banner can run from the screen edge all the way to the menu as one low strip, with the logo in its left
+   corner. It is 150 px tall on computers and about 90 px on phones; where the room is narrower than the
+   picture, it gets lower instead, so the picture is never cut off.
+   It carries the logo, so it is also the link to the home page. */
+.brand-banner {
+  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+  aspect-ratio: 760 / 366;
+  max-height: min(9.375rem, 24vw);
+  background: var(--steel-700) url("../img/banner.png") left center / auto 100% no-repeat;
+}
+
+/* Logo: assets/img/logo.svg, in the footer.
+   Until that file exists, the old white-on-blue logo.jpg is used and
    its background is removed with the --legacy filters. */
 .brand { display: inline-flex; align-items: center; flex: none; text-decoration: none; }
 .brand__logo { width: auto; height: 3rem; }
@@ -244,7 +262,6 @@ p { text-wrap: pretty; }
   mix-blend-mode: multiply;
   transform: translateY(3px);
 }
-.on-dark .brand__logo--legacy { filter: grayscale(1) contrast(2); mix-blend-mode: screen; }
 
 .nav { display: flex; align-items: center; gap: 1.5rem; }
 .nav__list { display: flex; align-items: center; gap: 0.125rem; list-style: none; }
@@ -273,7 +290,12 @@ p { text-wrap: pretty; }
 .nav__link[aria-current="page"]::after { opacity: 1; }
 .nav-toggle { display: none; }
 
-/* Seven links + CTA: tighten the desktop nav on narrower laptops */
+/* On computers the menu keeps its full width and the banner takes the rest of the row */
+@media (min-width: 1081px) {
+  .nav { flex: none; }
+}
+
+/* Six links + CTA: tighten the desktop nav on narrower laptops, so the banner keeps some size */
 @media (min-width: 1081px) and (max-width: 1279px) {
   .site-header__inner { gap: 1.25rem; }
   .brand__logo { height: 2.75rem; }
@@ -284,8 +306,7 @@ p { text-wrap: pretty; }
 }
 
 @media (max-width: 1080px) {
-  :root { --header-h: 4.25rem; }
-
+  .site-header__inner { gap: 1rem; }
   .brand__logo { height: 2.625rem; }
 
   .js .nav-toggle {
@@ -317,17 +338,18 @@ p { text-wrap: pretty; }
   [aria-expanded="true"] .nav-toggle__bars::before { transform: rotate(45deg); }
   [aria-expanded="true"] .nav-toggle__bars::after { transform: rotate(-45deg); }
 
+  /* The open menu fills the screen below the bar; the banner above stays in view */
   .js .nav {
     position: fixed;
-    inset: 0;
+    inset: var(--menu-top, 7rem) 0 0;
     z-index: -1;
     display: none;
     flex-direction: column;
     align-items: stretch;
     justify-content: space-between;
     gap: 2rem;
-    padding: calc(var(--menu-top, 7rem) + 1rem) var(--gutter) calc(1.5rem + env(safe-area-inset-bottom));
-    background: var(--white);
+    padding: 1rem var(--gutter) calc(1.5rem + env(safe-area-inset-bottom));
+    background: var(--color-bg);
     overflow-y: auto;
   }
   .menu-open .nav { display: flex; }
@@ -612,7 +634,7 @@ a.card:hover { border-color: var(--color-border-strong); }
   background: url("https://m-mash.net/images/Eu-pic.png") 41.9753% 5.0594% / 235.4515% auto no-repeat;
 }
 
-.project { display: grid; gap: 2rem; padding-bottom: clamp(2.5rem, 1.5rem + 3vw, 4rem); scroll-margin-top: calc(var(--header-h) + 2rem); }
+.project { display: grid; gap: 2rem; padding-bottom: clamp(2.5rem, 1.5rem + 3vw, 4rem); scroll-margin-top: 2rem; }
 .project__head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem 3rem; align-items: start; }
 .project__intro { display: grid; gap: 1rem; justify-items: start; }
 .project__title { font-size: var(--fs-h3); font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; }
@@ -798,9 +820,10 @@ select.input {
 }
 
 /* ---------- Footer ---------- */
-.site-footer { position: relative; isolation: isolate; overflow: hidden; padding-top: clamp(3rem, 2rem + 3vw, 4.5rem); background: var(--graphite-950); }
+/* The footer has the page's own background. The gear shapes below take their colour from CSS, used as masks. */
+.site-footer { position: relative; isolation: isolate; overflow: hidden; padding-top: clamp(3rem, 2rem + 3vw, 4.5rem); background: var(--color-bg); }
 
-/* Two meshing gears behind the footer content, cropped by the bottom right corner */
+/* Two meshing gears behind the footer content, a shade darker than the footer, cropped by the bottom right corner */
 .site-footer::before {
   content: "";
   position: absolute;
@@ -809,7 +832,9 @@ select.input {
   z-index: -1;
   width: clamp(20rem, 44vw, 44rem);
   aspect-ratio: 669 / 583;
-  background: url("../img/footer-gears.svg") no-repeat center / contain;
+  background: var(--iwhite-200);
+  -webkit-mask: url("../img/footer-gears.svg") no-repeat center / contain;
+  mask: url("../img/footer-gears.svg") no-repeat center / contain;
   transform: translate(20%, 28%);
   pointer-events: none;
 }
@@ -824,7 +849,9 @@ main::after {
   bottom: -1px;
   height: 3.75rem;
   aspect-ratio: 224 / 128;
-  background: url("../img/footer-edge-gear.svg") no-repeat center / contain;
+  background: var(--color-bg);
+  -webkit-mask: url("../img/footer-edge-gear.svg") no-repeat center / contain;
+  mask: url("../img/footer-edge-gear.svg") no-repeat center / contain;
   transform: translateX(-50%);
   pointer-events: none;
 }
@@ -849,7 +876,7 @@ main::after {
 .contact-tile__icon .icon { width: 1.375rem; height: 1.375rem; stroke-width: 1.5; }
 .contact-tile__label { display: block; margin-bottom: 0.2rem; font-size: var(--fs-xs); color: var(--color-text-muted); }
 .contact-tile__value { display: block; font-weight: 600; color: var(--color-text); text-decoration: none; overflow-wrap: anywhere; }
-a.contact-tile__value:hover { color: var(--amber-400); }
+a.contact-tile__value:hover { color: var(--color-label); }
 
 .footer-main {
   display: grid;

@@ -35,8 +35,8 @@ The pages already point at these files. Save each one under exactly this name an
 
 | File | What it should show | Used on | Size |
 | --- | --- | --- | --- |
-| `logo.svg` | Logo, dark version | Header, all pages | vector |
-| `logo-white.svg` | Logo, white version | Footer | vector |
+| `logo.svg` | Logo, dark version | Footer, all pages | vector |
+| `banner.png` | The old M-MASH banner (in place) | Left of the menu, all pages | 6000 × 366 |
 | `hero.jpg` | Machine or workshop at work, landscape | Home hero, slide 1 | 2400 × 1350 |
 | `hero-2.jpg` | Machining close-up, landscape | Home hero, slide 2 | 2400 × 1350 |
 | `hero-3.jpg` | Finished parts, landscape | Home hero, slide 3 | 2400 × 1350 |
@@ -50,9 +50,13 @@ The pages already point at these files. Save each one under exactly this name an
 
 Export JPGs at about 80% quality so each stays under ~400 KB.
 
+The banner, `banner.png` (6000 × 366 px), is the banner from the old m-mash.net site. Its hydraulic cylinder is painted out and the empty dark strip at the bottom trimmed off. Its plain right edge (the blue panel and the dark top strip) is drawn out to 6000 px. That lets it run on every page from the left edge of the screen to the menu as one low strip, with the logo in its left corner, where the old logo was. It touches the top bar above and the section below, with no light margin around it, and it links to the home page. The `.brand-banner` rule in `site.css` makes it 150 px tall on computers and about 90 px on phones (24% of the screen width). Where the room beside the menu is narrower than the picture, the banner gets lower instead, so the picture is never cut off.
+
+The menu row has the page's own background (`--color-bg`), like the footer. On computers the menu links and the inquiry button sit to the right of the banner, and their right end lines up with the page content. On phones the menu button sits there, and the open menu, in the same colour, drops down below the row. Because the row is as tall as the banner, it scrolls away with the page instead of staying at the top, as on the old site.
+
 ### Stock photos in use
 
-Nine of these photos are free stock photos, in place until M-MASH has its own: every photo above except `sgrada.jpg`. They come from Unsplash and Pexels, whose licences allow free use on a business website without paying or crediting anyone; the photographers keep the copyright, and the photos must not be resold as they are. All are real photographs (each carries the camera's data), with no recognisable faces or company logos. Because they show other companies' machines, their descriptions on the pages (the `alt` texts) say what is in the picture rather than calling it M-MASH's. To use your own photo instead, save it over the same file name; if it shows M-MASH's own workshop or parts, its description can say so again.
+Nine of these photos are free stock photos, in place until M-MASH has its own: every photo above except `sgrada.jpg` and the banner, which are M-MASH's own. They come from Unsplash and Pexels, whose licences allow free use on a business website without paying or crediting anyone; the photographers keep the copyright, and the photos must not be resold as they are. All are real photographs (each carries the camera's data), with no recognisable faces or company logos. Because they show other companies' machines, their descriptions on the pages (the `alt` texts) say what is in the picture rather than calling it M-MASH's. To use your own photo instead, save it over the same file name; if it shows M-MASH's own workshop or parts, its description can say so again.
 
 | File | Photo | Photographer | Source |
 | --- | --- | --- | --- |
@@ -68,7 +72,7 @@ Nine of these photos are free stock photos, in place until M-MASH has its own: e
 
 The home hero shows its three photos in turn, a new one every six seconds, behind the same headline and buttons. Under the buttons, centred, two arrows move to the previous or next photo and the bars between them pick any photo; on a phone a sideways swipe does the same. While the pointer or keyboard focus is on the arrows and bars, the photo waits. For visitors whose system asks for less motion, the photo changes only when they choose. To add a fourth photo, copy the `hero-3.jpg` line in the hero of all four home pages and change the file name in its `data-label` and `src`. `site.js` makes one bar per photo.
 
-The browser tab icon is `assets/img/favicon.ico`, cut from the round symbol in the original logo (white on Steel Blue, at 16, 32 and 48 px). The two gears in the footer are `assets/img/footer-gears.svg`, placed by the `.site-footer::before` rule in `site.css`. The gear rising from the footer's top edge is `assets/img/footer-edge-gear.svg`, placed by the `main::after` rule. It stands in the bottom padding of the last section on every page, so end a new page with the band or a `.section`, which leave room for it.
+The browser tab icon is `assets/img/favicon.ico`, cut from the round symbol in the original logo (white on Steel Blue, at 16, 32 and 48 px). The two gears in the footer are `assets/img/footer-gears.svg`, placed by the `.site-footer::before` rule in `site.css`. The gear rising from the footer's top edge is `assets/img/footer-edge-gear.svg`, placed by the `main::after` rule. It stands in the bottom padding of the last section on every page, so end a new page with the band or a `.section`, which leave room for it. The footer has the page's own light background (`--color-bg`). Both gear files are used only as shapes (CSS masks), so `site.css` sets their colours: the rising gear matches the footer, and the footer's gears are one shade darker (`--iwhite-200`).
 
 ## Design system
 
@@ -102,7 +106,7 @@ The EU funding logos and all project documents in the Актуално section l
 - The 2026 project ("Енергийна ефективност в М-Маш ЕООД") is described only inside `files/26/Info-website.pdf`. EU rules ask for a short description of the project (aims and results) on the website itself, so paste that text into the Актуално section of `index.html` when you can.
 - The certificate in the Quality section of the home pages is the scan from the old site. It shows an expiry date of 24 June 2021, while `za-nas.html` and its translations call the certification valid. When a newer certificate is ready, upload it over `images/CCF31102018.jpg` under the same name. If the certification body has changed, also update the caption in the `.certificate` block of the four home pages.
 - New notices go at the top of the matching project's `<ol class="notices">` in `index.html`, copying an existing `<li class="notice">`. Add the translated notice to `en/index.html`, `de/index.html` and `it/index.html` too.
-- The header, top bar and footer are repeated in every page. Edit all twenty-four pages together, including those in `en/`, `de/` and `it/`.
+- The top bar, banner, header and footer are repeated in every page. Edit all twenty-four pages together, including those in `en/`, `de/` and `it/`.
 
 ## Hosting on GitHub Pages
 

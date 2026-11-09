@@ -37,9 +37,7 @@
 <body>
   <header class="site-header" data-header>
     <div class="container site-header__inner">
-      <a class="brand" href="index.html" aria-label="М-Маш ЕООД – начална страница">
-        <img class="brand__logo" src="assets/img/logo.svg" width="239" height="67" alt="M-MASH Ltd." onerror="this.onerror=null;this.classList.add('brand__logo--legacy');this.src='https://m-mash.net/images/logo.jpg'">
-      </a>
+      <a class="brand-banner" href="index.html" aria-label="М-Маш ЕООД – начална страница"></a>
       <a class="link-arrow" href="index.html">Към сайта</a>
     </div>
   </header>
@@ -74,8 +72,8 @@
           <div class="ds-swatch"><div class="ds-chip" style="background:var(--graphite-500)"></div><strong>Графит 500</strong><code>вторичен текст · 5.2:1</code></div>
           <div class="ds-swatch"><div class="ds-chip" style="background:var(--steel-700)"></div><strong>Стоманено синьо</strong><code>--steel-700 · лента за запитване</code></div>
           <div class="ds-swatch"><div class="ds-chip" style="background:var(--steel-600)"></div><strong>Стоманено синьо 600</strong><code>връзки, икони · 6.1:1</code></div>
-          <div class="ds-swatch"><div class="ds-chip" style="background:var(--iwhite-100)"></div><strong>Индустриално бяло</strong><code>--iwhite-100 · фон</code></div>
-          <div class="ds-swatch"><div class="ds-chip" style="background:var(--white)"></div><strong>Бяло</strong><code>повърхности, хедър</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--iwhite-100)"></div><strong>Индустриално бяло</strong><code>--iwhite-100 · фон, меню, долен колонтитул</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--white)"></div><strong>Бяло</strong><code>повърхности</code></div>
           <div class="ds-swatch"><div class="ds-chip" style="background:var(--amber-500)"></div><strong>Сигнално кехлибарено</strong><code>--amber-500 · бутони</code></div>
           <div class="ds-swatch"><div class="ds-chip" style="background:var(--amber-600)"></div><strong>Кехлибарено 600</strong><code>hover</code></div>
         </div>
@@ -163,9 +161,8 @@
         <table class="ds-files">
           <thead><tr><th>Файл</th><th>Какво да показва</th><th>Къде</th><th>Размер</th></tr></thead>
           <tbody>
-            <tr><td><code>logo.svg</code></td><td>Логото, тъмна версия</td><td>Хедър на всички страници</td><td>вектор</td></tr>
-            <tr><td><code>logo-white.svg</code></td><td>Логото, бяла версия</td><td>Долен колонтитул</td><td>вектор</td></tr>
-            <tr><td><code>hero.jpg</code></td><td>Машина или цех в работа, хоризонтално</td><td>Начало – горна част, слайд 1</td><td>2400 × 1350</td></tr>
+            <tr><td><code>logo.svg</code></td><td>Логото, тъмна версия</td><td>Долен колонтитул на всички страници</td><td>вектор</td></tr>
+            <tr><td><code>banner.png</code></td><td>Старият банер на М-Маш без хидравличния цилиндър, разширен надясно, от левия край на екрана до менюто, на мястото на логото (готов)</td><td>Вляво в реда с менюто на всички страници</td><td>6000 × 366</td></tr>            <tr><td><code>hero.jpg</code></td><td>Машина или цех в работа, хоризонтално</td><td>Начало – горна част, слайд 1</td><td>2400 × 1350</td></tr>
             <tr><td><code>hero-2.jpg</code></td><td>Обработка в близък план, хоризонтално</td><td>Начало – горна част, слайд 2</td><td>2400 × 1350</td></tr>
             <tr><td><code>hero-3.jpg</code></td><td>Готови детайли, хоризонтално</td><td>Начало – горна част, слайд 3</td><td>2400 × 1350</td></tr>
             <tr><td><code>ceh.jpg</code></td><td>Общ изглед на цеха</td><td>Начало – „Вашият чертеж…“</td><td>1600 × 1200</td></tr>
@@ -181,7 +178,7 @@
     </div>
   </main>
 
-  <footer class="site-footer on-dark" style="padding-top:0">
+  <footer class="site-footer" style="padding-top:0">
     <div class="container">
       <div class="footer-bottom">
         <p>© <span data-year>2026</span> М-Маш ЕООД · Дизайн система v3.0</p>
