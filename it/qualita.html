@@ -20,8 +20,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="../assets/css/tokens.css?v=2026-11-09">
-  <link rel="stylesheet" href="../assets/css/site.css?v=2026-11-09">
+  <link rel="stylesheet" href="../assets/css/tokens.css?v=2026-11-12.2">
+  <link rel="stylesheet" href="../assets/css/site.css?v=2026-11-12.2">
   <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -48,7 +48,10 @@
 
   <header class="site-header" data-header>
     <div class="container site-header__inner">
-      <a class="brand-banner" href="index.html" aria-label="M-MASH EOOD – pagina iniziale"></a>
+      <a class="brand-banner" href="index.html" aria-label="M-MASH EOOD – pagina iniziale">
+        <span class="brand-banner__squares" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-banner__text" aria-hidden="true"><span class="brand-banner__name">M-Mash Ltd.</span> <span class="brand-banner__slogan">Great quality. Great value.</span></span>
+      </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
         <span class="visually-hidden">Apri il menu</span><span class="nav-toggle__bars" aria-hidden="true"></span>
       </button>
@@ -71,7 +74,7 @@
       <div class="container page-hero__inner">
         <nav class="breadcrumb" aria-label="Percorso di navigazione"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Qualità</span></nav>
         <h1 class="h1 page-hero__title" id="page-title">La qualità è uno standard in ogni processo produttivo.</h1>
-        <p class="lead page-hero__lead">In M-MASH la qualità è un principio fondamentale nell’organizzazione delle attività produttive e nei rapporti con i clienti. Ci impegniamo a garantire coerenza, affidabilità e conformità ai requisiti tecnici concordati nella produzione di particolari metallici.</p>
+        <p class="lead page-hero__lead">In M-MASH la qualità è un principio fondamentale nell’organizzazione delle attività produttive e nei rapporti con i clienti. Ci impegniamo a garantire coerenza, affidabilità e conformità ai requisiti tecnici concordati nella produzione di particolari.</p>
       </div>
     </section>
 
@@ -79,7 +82,7 @@
     <section class="section section--surface" aria-labelledby="iso-title">
       <div class="container split split--media split--center">
         <figure class="photo" data-label="Foto: controllo qualità&#10;assets/img/kontrol.jpg">
-          <img src="../assets/img/kontrol.jpg" alt="Controllo dimensionale di un particolare metallico" loading="lazy" onerror="this.parentNode.classList.add('photo--missing')">
+          <img src="../assets/img/kontrol.jpg?v=2026-11-12" alt="Controllo dimensionale di un particolare" loading="lazy" onerror="this.parentNode.classList.add('photo--missing')">
         </figure>
         <div class="stack">
           <h2 class="h2" id="iso-title">Il nostro approccio alla qualità</h2>
@@ -114,7 +117,7 @@
         <h2 class="h2" id="trust-title">Una qualità che costruisce fiducia.</h2>
         <div class="prose">
           <p>Crediamo che le relazioni commerciali solide e durature si costruiscano attraverso la coerenza, la trasparenza e una chiara comprensione delle esigenze del cliente. Per questo consideriamo la qualità non soltanto come un risultato finale, ma come una responsabilità che accompagna l’intero processo produttivo.</p>
-          <p>Il nostro obiettivo è essere un partner affidabile per le aziende che cercano sicurezza e affidabilità nella produzione di componenti metallici e desiderano instaurare una collaborazione a lungo termine.</p>
+          <p>Il nostro obiettivo è essere un partner affidabile per le aziende che cercano sicurezza e affidabilità nella produzione di componenti e desiderano instaurare una collaborazione a lungo termine.</p>
         </div>
       </div>
     </section>
@@ -123,7 +126,7 @@
     <section class="band on-dark" aria-labelledby="cta-title">
       <div class="container band__inner">
         <div>
-          <h2 class="band__title" id="cta-title">Disponete di un disegno tecnico o di un progetto per un particolare metallico?</h2>
+          <h2 class="band__title" id="cta-title">Disponete di un disegno tecnico o di un progetto per un particolare?</h2>
           <p class="band__text">Contattateci per discutere i requisiti, il materiale e le possibilità di produzione.</p>
         </div>
         <a class="btn btn--primary btn--lg" href="contatti.html#richiesta">Inviateci una richiesta tecnica</a>
@@ -157,7 +160,7 @@
           <a class="brand" href="index.html" aria-label="M-MASH EOOD – pagina iniziale">
             <img class="brand__logo" src="../assets/img/logo.svg" width="239" height="67" alt="M-MASH Ltd." onerror="this.onerror=null;this.classList.add('brand__logo--legacy');this.src='https://m-mash.net/images/logo.jpg'">
           </a>
-          <p>Componenti metallici su disegno. Produzione per partner industriali.</p>
+          <p>Componenti su disegno. Produzione per partner industriali.</p>
         </div>
         <nav aria-label="Pagine">
           <p class="footer-title">Pagine</p>
@@ -193,6 +196,6 @@
     </div>
   </footer>
 
-  <script src="../assets/js/site.js?v=2026-11-09" defer></script>
+  <script src="../assets/js/site.js?v=2026-11-12.2" defer></script>
 </body>
 </html>

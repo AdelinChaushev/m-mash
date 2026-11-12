@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="assets/css/tokens.css?v=2026-11-09">
-  <link rel="stylesheet" href="assets/css/site.css?v=2026-11-09">
+  <link rel="stylesheet" href="assets/css/tokens.css?v=2026-11-12.2">
+  <link rel="stylesheet" href="assets/css/site.css?v=2026-11-12.2">
   <script>document.documentElement.classList.add('js')</script>
   <style>
     /* Reference-page-only helpers */
@@ -37,7 +37,10 @@
 <body>
   <header class="site-header" data-header>
     <div class="container site-header__inner">
-      <a class="brand-banner" href="index.html" aria-label="М-Маш ЕООД – начална страница"></a>
+      <a class="brand-banner" href="index.html" aria-label="М-Маш ЕООД – начална страница">
+        <span class="brand-banner__squares" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-banner__text" aria-hidden="true"><span class="brand-banner__name">M-Mash Ltd.</span> <span class="brand-banner__slogan">Great quality. Great value.</span></span>
+      </a>
       <a class="link-arrow" href="index.html">Към сайта</a>
     </div>
   </header>
@@ -72,7 +75,9 @@
           <div class="ds-swatch"><div class="ds-chip" style="background:var(--graphite-500)"></div><strong>Графит 500</strong><code>вторичен текст · 5.2:1</code></div>
           <div class="ds-swatch"><div class="ds-chip" style="background:var(--steel-700)"></div><strong>Стоманено синьо</strong><code>--steel-700 · лента за запитване</code></div>
           <div class="ds-swatch"><div class="ds-chip" style="background:var(--steel-600)"></div><strong>Стоманено синьо 600</strong><code>връзки, икони · 6.1:1</code></div>
-          <div class="ds-swatch"><div class="ds-chip" style="background:var(--iwhite-100)"></div><strong>Индустриално бяло</strong><code>--iwhite-100 · фон, меню, долен колонтитул</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--navy-800)"></div><strong>Морско синьо</strong><code>--navy-800 · банер, заглавни полета</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--sky-400)"></div><strong>Небесно синьо</strong><code>--sky-400 · връзки върху морско синьо</code></div>
+          <div class="ds-swatch"><div class="ds-chip" style="background:var(--iwhite-100)"></div><strong>Индустриално бяло</strong><code>--iwhite-100 · фон, падащо меню, долен колонтитул</code></div>
           <div class="ds-swatch"><div class="ds-chip" style="background:var(--white)"></div><strong>Бяло</strong><code>повърхности</code></div>
           <div class="ds-swatch"><div class="ds-chip" style="background:var(--amber-500)"></div><strong>Сигнално кехлибарено</strong><code>--amber-500 · бутони</code></div>
           <div class="ds-swatch"><div class="ds-chip" style="background:var(--amber-600)"></div><strong>Кехлибарено 600</strong><code>hover</code></div>
@@ -125,7 +130,7 @@
 
         <h3 class="h4 ds-group-title">Списъци</h3>
         <div class="grid grid--2">
-          <div class="ds-stage"><ul class="bullets"><li>Челно струговане</li><li>Надлъжно струговане</li><li>Нарязване на резби</li></ul></div>
+          <div class="ds-stage"><ul class="bullets"><li>Зададените допуски</li><li>Изискванията за повърхностна грапавост</li><li>Приложимите критерии за приемане на готовия детайл</li></ul></div>
           <div class="ds-stage"><ul class="checklist"><li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span><strong>Заглавие на точка</strong>Пояснителен текст към точката.</span></li></ul></div>
         </div>
 
@@ -162,15 +167,19 @@
           <thead><tr><th>Файл</th><th>Какво да показва</th><th>Къде</th><th>Размер</th></tr></thead>
           <tbody>
             <tr><td><code>logo.svg</code></td><td>Логото, тъмна версия</td><td>Долен колонтитул на всички страници</td><td>вектор</td></tr>
-            <tr><td><code>banner.png</code></td><td>Старият банер на М-Маш без хидравличния цилиндър, разширен надясно, от левия край на екрана до менюто, на мястото на логото (готов)</td><td>Вляво в реда с менюто на всички страници</td><td>6000 × 366</td></tr>            <tr><td><code>hero.jpg</code></td><td>Машина или цех в работа, хоризонтално</td><td>Начало – горна част, слайд 1</td><td>2400 × 1350</td></tr>
+            <tr><td><code>banner-logo.png</code></td><td>Тъмната лента на стария банер с малкото лого (готов)</td><td>Горе вляво в банера на всички страници</td><td>240 × 81</td></tr>
+            <tr><td><code>banner-strip.png</code></td><td>Празно парче от същата лента, повтаря се по ширината (готов)</td><td>Горе в банера на всички страници</td><td>4 × 81</td></tr>
+            <tr><td><code>banner-gears.png</code></td><td>Зъбните колела от стария банер, без тъмната ивица и линиите (готов)</td><td>Вляво в банера на всички страници</td><td>250 × 285</td></tr>
+            <tr><td><code>banner.png</code></td><td>Старият банер на М-Маш без хидравличния цилиндър, източникът на трите файла отгоре (готов)</td><td>Не се показва самостоятелно</td><td>760 × 366</td></tr>
+            <tr><td><code>hero.jpg</code></td><td>Машина или цех в работа, хоризонтално</td><td>Начало – горна част, слайд 1</td><td>2400 × 1350</td></tr>
             <tr><td><code>hero-2.jpg</code></td><td>Обработка в близък план, хоризонтално</td><td>Начало – горна част, слайд 2</td><td>2400 × 1350</td></tr>
             <tr><td><code>hero-3.jpg</code></td><td>Готови детайли, хоризонтално</td><td>Начало – горна част, слайд 3</td><td>2400 × 1350</td></tr>
-            <tr><td><code>ceh.jpg</code></td><td>Общ изглед на цеха</td><td>Начало – „Вашият чертеж…“</td><td>1600 × 1200</td></tr>
-            <tr><td><code>cnc-strugovane.jpg</code></td><td>CNC струг / струговане</td><td>Начало, Възможности</td><td>1600 × 1200</td></tr>
+            <tr><td><code>ceh.jpg</code></td><td>Два обработени детайла върху чертежи (от клиента)</td><td>Начало – „Вашият чертеж…“</td><td>1351 × 1013</td></tr>
+            <tr><td><code>cnc-strugovane.jpg</code></td><td>CNC струг / струговане (от клиента)</td><td>Начало, Възможности</td><td>1309 × 982</td></tr>
             <tr><td><code>frezovane.jpg</code></td><td>Фрезова машина / фрезоване</td><td>Начало, Възможности</td><td>1600 × 1200</td></tr>
-            <tr><td><code>shlifovane.jpg</code></td><td>Шлифовъчна машина / шлифоване</td><td>Начало, Възможности</td><td>1600 × 1200</td></tr>
+            <tr><td><code>shlifovane.jpg</code></td><td>Шлифовъчна машина / шлифоване (от клиента)</td><td>Начало, Възможности</td><td>1309 × 982</td></tr>
             <tr><td><code>detayli.jpg</code></td><td>Готови детайли</td><td>Услуги</td><td>1600 × 1200</td></tr>
-            <tr><td><code>kontrol.jpg</code></td><td>Измерване / контрол на детайл</td><td>Качество</td><td>1600 × 1200</td></tr>
+            <tr><td><code>kontrol.jpg</code></td><td>Измерване / контрол на детайл (от клиента)</td><td>Качество</td><td>1309 × 982</td></tr>
             <tr><td><code>sgrada.jpg</code></td><td>Сградата на М-Маш</td><td>За нас (временно от стария сайт)</td><td>1600 × 1200</td></tr>
           </tbody>
         </table>
@@ -187,6 +196,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/site.js?v=2026-11-09" defer></script>
+  <script src="assets/js/site.js?v=2026-11-12.2" defer></script>
 </body>
 </html>

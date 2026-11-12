@@ -1,6 +1,6 @@
 /* ==========================================================================
    М-Маш · Дизайн система — токени
-   Four colour families: graphite, steel blue, industrial white, safety amber.
+   Five colour families: graphite, steel blue, navy (from the old banner), industrial white, safety amber.
    Primitives → semantic roles. Components use the semantic roles only,
    so a dark section just remaps the roles (see .on-dark in site.css).
    ========================================================================== */
@@ -27,6 +27,17 @@
   --steel-400: #7d9bb9;
   --steel-200: #c8d5e2;
   --steel-100: #e4ebf2;
+
+  /* Navy — the blue of the old M-MASH banner: the header and the page title boxes */
+  --navy-950: #011528;
+  --navy-900: #013357;
+  --navy-800: #023a60;
+  --navy-750: #013c68;
+  --navy-700: #014072;
+  --navy-650: #01467b;
+  --navy-600: #014f88;
+  --navy-500: #2d6aa3;
+  --sky-400: #3cbcf2;                             /* links on navy — 5.5:1 on --navy-800 */
 
   /* Industrial white — backgrounds and surfaces */
   --white: #ffffff;

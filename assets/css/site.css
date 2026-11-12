@@ -216,41 +216,89 @@ p { text-wrap: pretty; }
 }
 
 /* ---------- Header & navigation ---------- */
-/* The menu row has the page's own background, like the footer. It holds the big banner, so it is too tall
-   to stay on screen while scrolling: it scrolls away with the page, as on the old m-mash.net site. */
+/* The header is the old M-MASH banner across the whole screen, as in the client's mock-up (2026-11-11): the
+   dark strip with the small logo on top; below it the blue panel with the gears, the three squares and
+   "M-Mash Ltd. / Great quality. Great value." on the left, and the menu (on phones the menu button) on the
+   right, in white. The strip and the gears are cut from the old picture banner.png (banner-logo.png,
+   banner-strip.png, banner-gears.png); the blue, the squares and the lettering are drawn here, so they stay
+   sharp at any width. The banner is about a quarter of the screen width tall on phones and 150 px on tablets
+   and computers (lower on small laptops, so the menu fits beside the lettering). It is too tall to stay on
+   screen while scrolling, so it scrolls away with the page, as on the old m-mash.net site. */
 .site-header {
+  --bh: clamp(5rem, 26.3vw, 9.375rem);       /* height of the whole banner */
+  --strip: calc(var(--bh) * 81 / 366);       /* the dark strip with the small logo */
+  --band: calc(var(--bh) - var(--strip));    /* the blue panel under it */
+  --color-focus: var(--amber-400);
   position: relative;
   z-index: var(--z-header);
-  background: var(--color-bg);
+  color: var(--white);
+  background:
+    url("../img/banner-logo.png?v=2026-11-11") left top / auto var(--strip) no-repeat,
+    url("../img/banner-strip.png?v=2026-11-11") left top / auto var(--strip) repeat-x,
+    /* shadow under the strip, and the dark lower edge */
+    linear-gradient(#000, rgb(0 0 0 / 0.3) 2.5%, rgb(0 0 0 / 0) 7%) left bottom / 100% var(--band) no-repeat,
+    linear-gradient(to top, var(--navy-950), rgb(1 21 40 / 0) 13%) left bottom / 100% var(--band) no-repeat,
+    /* light from the gears, then deep navy to the right */
+    radial-gradient(ellipse 100% 80% at 0 30%, var(--navy-500), rgb(45 106 163 / 0)) left bottom / calc(var(--band) * 2.4) var(--band) no-repeat,
+    linear-gradient(90deg, var(--navy-600) 30%, var(--navy-650) 55%, var(--navy-750) 80%, var(--navy-900)) left bottom / 100% var(--band) no-repeat,
+    var(--navy-900);
 }
 
-/* The banner on the left, the menu (or on phones the menu button) on the right. The row has no padding at the
-   top, bottom or left, so the banner touches the top bar, the section below and the left edge of the screen.
-   On the right the menu lines up with the page content. */
+/* The banner's left part on the left, the menu (or on phones the menu button) on the right, both centred in
+   the blue panel. On the right the menu lines up with the page content. */
 .site-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
+  min-height: var(--bh);
   max-width: none;
+  padding-top: var(--strip);
   padding-left: 0;
   padding-right: max(var(--gutter), (100% - var(--container)) / 2);
 }
 
-/* The old M-MASH banner, assets/img/banner.png, in the logo's place at the left of the menu row. The file is
-   the 760 × 366 picture with its plain right edge (dark top strip, blue panel) drawn out to 6000 px, so the
-   banner can run from the screen edge all the way to the menu as one low strip, with the logo in its left
-   corner. It is 150 px tall on computers and about 90 px on phones; where the room is narrower than the
-   picture, it gets lower instead, so the picture is never cut off.
-   It carries the logo, so it is also the link to the home page. */
+/* The link to the home page: the whole left of the banner, from the small logo down to the bottom edge, with
+   the gears (::before), the three squares and the lettering. Its aria-label is its name. */
 .brand-banner {
-  display: block;
-  flex: 1 1 0;
-  min-width: 0;
-  aspect-ratio: 760 / 366;
-  max-height: min(9.375rem, 24vw);
-  background: var(--steel-700) url("../img/banner.png?v=2026-11-09") left center / auto 100% no-repeat;
+  --k: var(--band);                          /* scale of the squares and the lettering */
+  --sq: calc(var(--k) * 0.256);              /* one square */
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  flex: none;
+  gap: calc(var(--k) * 0.16);
+  margin-top: calc(-1 * var(--strip));
+  padding: var(--strip) 0 0 calc(var(--k) * 1.07);
+  color: var(--white);
+  text-decoration: none;
 }
+/* The gears, 1.3 times the panel's height as in the mock-up (the empty glow above them is cut off), fading
+   into the blue on their right */
+.brand-banner::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: calc(var(--band) * 1.1);
+  height: var(--band);
+  background: url("../img/banner-gears.png?v=2026-11-11") left bottom / auto 130% no-repeat;
+  -webkit-mask-image: linear-gradient(to right, #000 50%, transparent 96%);
+  mask-image: linear-gradient(to right, #000 50%, transparent 96%);
+}
+.brand-banner__squares { display: flex; flex: none; gap: calc(var(--sq) * 0.17); }
+.brand-banner__squares > span {
+  width: var(--sq);
+  height: var(--sq);
+  border: max(1.5px, calc(var(--band) * 0.016)) solid rgb(235 245 255 / 0.9);
+}
+.brand-banner__text { display: grid; justify-items: center; line-height: 1; white-space: nowrap; }
+.brand-banner__name { font-size: calc(var(--k) * var(--name-size, 0.33)); font-weight: 700; }
+.brand-banner__slogan { margin-top: calc(var(--k) * 0.08); font-size: calc(var(--k) * 0.14); }
+
+/* The design page has a link back to the site instead of the menu */
+.site-header .link-arrow { color: var(--white); }
 
 /* Logo: assets/img/logo.svg, in the footer.
    Until that file exists, the old white-on-blue logo.jpg is used and
@@ -271,7 +319,7 @@ p { text-wrap: pretty; }
   padding: 0.5rem 0.8rem;
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--color-text-muted);
+  color: rgb(255 255 255 / 0.8);
   text-decoration: none;
   white-space: nowrap;
   transition: color var(--dur-fast);
@@ -286,17 +334,27 @@ p { text-wrap: pretty; }
   background: var(--amber-500);
   opacity: 0;
 }
-.nav__link:hover, .nav__link[aria-current="page"] { color: var(--color-text); }
+.nav__link:hover, .nav__link[aria-current="page"] { color: var(--white); }
 .nav__link[aria-current="page"]::after { opacity: 1; }
 .nav-toggle { display: none; }
 
-/* On computers the menu keeps its full width and the banner takes the rest of the row */
+/* On computers the menu keeps its full width, after a thin line like the one beside the menu button on phones */
 @media (min-width: 1081px) {
+  .brand-banner { --name-size: 0.3; }
   .nav { flex: none; }
+  .nav::before {
+    content: "";
+    flex: none;
+    width: 1px;
+    height: calc(var(--band) * 0.42);
+    background: rgb(255 255 255 / 0.55);
+  }
 }
 
-/* Six links + CTA: tighten the desktop nav on narrower laptops, so the banner keeps some size */
-@media (min-width: 1081px) and (max-width: 1279px) {
+/* Six links + CTA: tighten the desktop nav on narrower laptops, and lower the banner there (94 px at 1081 px,
+   150 px from about 1270 px), so the lettering keeps its room beside the menu */
+@media (min-width: 1081px) and (max-width: 1365px) {
+  .site-header { --bh: clamp(5.875rem, 5.875rem + (100vw - 67.5625rem) * 0.3, 9.375rem); }
   .site-header__inner { gap: 1.25rem; }
   .brand__logo { height: 2.75rem; }
   .nav { gap: 1rem; }
@@ -307,9 +365,14 @@ p { text-wrap: pretty; }
 
 @media (max-width: 1080px) {
   .site-header__inner { gap: 1rem; }
+  /* On phones the lettering follows the room left beside the menu button (402 px wide: as in the mock-up);
+     the design page's "Към сайта" link is a little wider than the button */
+  .brand-banner { --k: min(var(--band), (100vw - 4.5rem) / 4.15); }
+  .site-header:has(.link-arrow) .brand-banner { --k: min(var(--band), (100vw - 5.5rem) / 4.15); }
   .brand__logo { height: 2.625rem; }
 
   .js .nav-toggle {
+    position: relative;
     display: inline-grid;
     place-items: center;
     width: 2.75rem;
@@ -319,8 +382,19 @@ p { text-wrap: pretty; }
     background: none;
     border: 0;
     border-radius: var(--radius-md);
-    color: var(--color-text);
+    color: var(--white);
     cursor: pointer;
+  }
+  /* The thin line between the lettering and the menu button, as in the mock-up */
+  .js .nav-toggle::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -0.375rem;
+    width: 1px;
+    height: calc(var(--band) * 0.415);
+    background: rgb(255 255 255 / 0.75);
+    transform: translateY(-50%);
   }
   .nav-toggle__bars,
   .nav-toggle__bars::before,
@@ -350,6 +424,8 @@ p { text-wrap: pretty; }
     gap: 2rem;
     padding: 1rem var(--gutter) calc(1.5rem + env(safe-area-inset-bottom));
     background: var(--color-bg);
+    color: var(--color-text);
+    --color-focus: var(--steel-500);
     overflow-y: auto;
   }
   .menu-open .nav { display: flex; }
@@ -587,7 +663,8 @@ a.card:hover { border-color: var(--color-border-strong); }
 @media (max-width: 560px) { .band .btn { width: 100%; } }
 
 /* ---------- Inner page hero ---------- */
-.page-hero { background: var(--dark-bg); padding-block: clamp(2.75rem, 2rem + 3.5vw, 5rem); }
+/* Navy like the banner above it (the client's mock-up, 2026-11-11), with sky-blue links in the breadcrumb */
+.page-hero { background: linear-gradient(var(--navy-900), var(--navy-800)); padding-block: clamp(2.75rem, 2rem + 3.5vw, 5rem); }
 .page-hero__inner { display: grid; gap: 1.25rem; justify-items: start; }
 .page-hero__title { max-width: 52rem; }
 .page-hero__lead { max-width: 46rem; }
@@ -596,6 +673,8 @@ a.card:hover { border-color: var(--color-border-strong); }
 .breadcrumb { display: flex; flex-wrap: wrap; gap: 0.5rem; font-size: var(--fs-xs); color: var(--color-text-muted); }
 .breadcrumb a { text-decoration: none; }
 .breadcrumb a:hover, .breadcrumb [aria-current] { color: var(--color-text); }
+.page-hero .breadcrumb a, .page-hero .breadcrumb > [aria-hidden] { color: var(--sky-400); }
+.page-hero .breadcrumb a:hover { color: var(--color-text); }
 
 /* ---------- Timeline ---------- */
 .timeline { display: grid; margin-left: 0.25rem; list-style: none; border-left: 1px solid var(--color-border-strong); }
@@ -756,6 +835,10 @@ a.contact-card__value:hover { color: var(--color-label); }
   .contact-card { grid-template-columns: auto minmax(0, 1fr); }
   .contact-card .btn { grid-column: 2; justify-self: start; }
 }
+
+/* The two cards with a person's name and phone number: as wide as the other cards, but lower */
+.contact-card--person { padding-block: 0.625rem; }
+.contact-card--person .contact-card__value { margin-top: 0; font-size: 1rem; line-height: 1.3; }
 
 .map { overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-md); }
 .map iframe { display: block; width: 100%; height: clamp(20rem, 40vw, 30rem); border: 0; }

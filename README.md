@@ -36,39 +36,44 @@ The pages already point at these files. Save each one under exactly this name an
 | File | What it should show | Used on | Size |
 | --- | --- | --- | --- |
 | `logo.svg` | Logo, dark version | Footer, all pages | vector |
-| `banner.png` | The old M-MASH banner (in place) | Left of the menu, all pages | 6000 × 366 |
+| `banner-logo.png` | The old banner's dark strip with the small logo (in place) | Header, top left, all pages | 240 × 81 |
+| `banner-strip.png` | A plain slice of that strip (in place) | Header, across the top, all pages | 4 × 81 |
+| `banner-gears.png` | The old banner's gears (in place) | Header, left, all pages | 250 × 285 |
+| `banner.png` | The old M-MASH banner, the source of the three files above (in place) | Not shown by itself | 760 × 366 |
 | `hero.jpg` | Machine or workshop at work, landscape | Home hero, slide 1 | 2400 × 1350 |
 | `hero-2.jpg` | Machining close-up, landscape | Home hero, slide 2 | 2400 × 1350 |
 | `hero-3.jpg` | Finished parts, landscape | Home hero, slide 3 | 2400 × 1350 |
-| `ceh.jpg` | Workshop overview | Home, "Вашият чертеж…" | 1600 × 1200 |
-| `cnc-strugovane.jpg` | CNC lathe / turning | Home, Възможности | 1600 × 1200 |
+| `ceh.jpg` | Machined parts on technical drawings (from the client) | Home, "Вашият чертеж…" | 1351 × 1013 |
+| `cnc-strugovane.jpg` | CNC lathe / turning (from the client) | Home, Възможности | 1309 × 982 |
 | `frezovane.jpg` | Milling | Home, Възможности | 1600 × 1200 |
-| `shlifovane.jpg` | Grinding | Home, Възможности | 1600 × 1200 |
+| `shlifovane.jpg` | Grinding (from the client) | Home, Възможности | 1309 × 982 |
 | `detayli.jpg` | Finished parts | Услуги | 1600 × 1200 |
-| `kontrol.jpg` | Measuring / inspecting a part | Качество | 1600 × 1200 |
+| `kontrol.jpg` | Measuring / inspecting a part (from the client) | Качество | 1309 × 982 |
 | `sgrada.jpg` | The M-MASH building | За нас | 1600 × 1200 |
 
 Export JPGs at about 80% quality so each stays under ~400 KB.
 
-The banner, `banner.png` (6000 × 366 px), is the banner from the old m-mash.net site. Its hydraulic cylinder is painted out and the empty dark strip at the bottom trimmed off. Its plain right edge (the blue panel and the dark top strip) is drawn out to 6000 px. That lets it run on every page from the left edge of the screen to the menu as one low strip, with the logo in its left corner, where the old logo was. It touches the top bar above and the section below, with no light margin around it, and it links to the home page. The `.brand-banner` rule in `site.css` makes it 150 px tall on computers and about 90 px on phones (24% of the screen width). Where the room beside the menu is narrower than the picture, the banner gets lower instead, so the picture is never cut off.
+The header is the banner from the old m-mash.net site, laid out across the whole screen as in the client's mock-up (11 November 2026). On top is the banner's dark strip with the small logo. Below it is the blue panel: on the left the gears, three squares and "M-Mash Ltd." with "Great quality. Great value." under it, and on the right the menu in white. The strip and the gears are cut from `banner.png` (760 × 366 px, the old banner with its hydraulic cylinder painted out). In `banner-gears.png` the dark stripe and the fine lines that crossed the gears are also removed, as in the mock-up. The blue, the squares and the lettering are drawn by `site.css`, so they stay sharp at any width. The lettering is in each page's header, inside the link to the home page, and screen readers skip it because the link has its own name (`aria-label`).
 
-The menu row has the page's own background (`--color-bg`), like the footer. On computers the menu links and the inquiry button sit to the right of the banner, and their right end lines up with the page content. On phones the menu button sits there, and the open menu, in the same colour, drops down below the row. Because the row is as tall as the banner, it scrolls away with the page instead of staying at the top, as on the old site.
+The header is about a quarter of the screen width tall on phones (106 px on a 402 px wide phone, as in the mock-up) and 150 px on tablets and computers. On small laptops (1081–1270 px wide) it is 94–150 px, so the menu fits beside the lettering. On phones the lettering also gets smaller with the screen, so the menu button always keeps its place. The `--bh` setting in the `.site-header` rule sets the height, and everything in the banner scales with it.
+
+The menu sits on the blue. On computers it shows white links, with an amber line under the current page, the amber inquiry button, and a thin line before the first link. On phones there is a white menu button with a thin line beside it, and the open menu drops down below the banner on the page's light background. The header scrolls away with the page instead of staying at the top, as on the old site.
+
+The title box at the top of each inner page (`.page-hero`) is navy like the banner, as in the mock-up, with sky-blue links in its breadcrumb. The inquiry band at the bottom of the pages (`.band`) stays steel blue, and the other dark sections stay graphite.
 
 ### Stock photos in use
 
-Nine of these photos are free stock photos, in place until M-MASH has its own: every photo above except `sgrada.jpg` and the banner, which are M-MASH's own. They come from Unsplash and Pexels, whose licences allow free use on a business website without paying or crediting anyone; the photographers keep the copyright, and the photos must not be resold as they are. All are real photographs (each carries the camera's data), with no recognisable faces or company logos. Because they show other companies' machines, their descriptions on the pages (the `alt` texts) say what is in the picture rather than calling it M-MASH's. To use your own photo instead, save it over the same file name; if it shows M-MASH's own workshop or parts, its description can say so again.
+Four photos came from the client on 12 November 2026 and were cropped to the 4:3 slots: `ceh.jpg` (two machined parts on technical drawings), `cnc-strugovane.jpg` (a CNC lathe turning a shaft), `shlifovane.jpg` (a CNC grinder throwing sparks) and `kontrol.jpg` (a man measuring a part with a micrometer). Their source isn't recorded here. Unlike the stock photos, the grinder shows a maker's name on the machine ("PRECISION TECH GRINDER PRO"), and the measuring photo shows a person's face. Make sure M-MASH may use them on its website.
+
+Five of these photos are free stock photos, in place until M-MASH has its own: `hero.jpg`, `hero-2.jpg`, `hero-3.jpg`, `frezovane.jpg` and `detayli.jpg`. `sgrada.jpg` and the banner are M-MASH's own. The stock photos come from Unsplash and Pexels, whose licences allow free use on a business website without paying or crediting anyone; the photographers keep the copyright, and the photos must not be resold as they are. All are real photographs (each carries the camera's data), with no recognisable faces or company logos. Because they show other companies' machines, their descriptions on the pages (the `alt` texts) say what is in the picture rather than calling it M-MASH's. To use your own photo instead, save it over the same file name; if it shows M-MASH's own workshop or parts, its description can say so again.
 
 | File | Photo | Photographer | Source |
 | --- | --- | --- | --- |
 | `hero.jpg` | CNC machine spindle with coolant lines | Daniel Smyth | [Pexels](https://www.pexels.com/photo/close-up-shot-of-a-cnc-machine-8865187/) |
 | `hero-2.jpg` | CNC milling with coolant splashing | Daniel Smyth | [Pexels](https://www.pexels.com/photo/close-up-of-machine-splashing-milk-8956445/) |
 | `hero-3.jpg` | Rows of finished turned steel parts | Hans Westbeek | [Unsplash](https://unsplash.com/photos/rows-of-shiny-metal-components-on-a-textured-surface-fimoFLchbuk) |
-| `ceh.jpg` | Machining hall | Yetkin Ağaç | [Pexels](https://www.pexels.com/photo/industrial-factory-floor-with-machinery-and-crates-34718922/) |
-| `cnc-strugovane.jpg` | CNC lathe turning a steel rod | Sven Daniel | [Unsplash](https://unsplash.com/photos/metal-rod-machining-on-lathe-eaanLTG7TCU) |
 | `frezovane.jpg` | End mill cutting an aluminium block | Daniel Smyth | [Pexels](https://www.pexels.com/photo/close-up-photo-of-metal-tool-10406128/) |
-| `shlifovane.jpg` | A spinning disc being finished on a machine | Alex Domínguez | [Pexels](https://www.pexels.com/photo/person-in-black-gloves-grinding-an-object-in-a-machine-7018173/) |
 | `detayli.jpg` | Two machined parts on technical drawings | EnCata PD | [Unsplash](https://unsplash.com/photos/two-metal-mechanical-parts-on-engineering-blueprints-SRqJ3eli-4I) |
-| `kontrol.jpg` | Measuring a part with a digital caliper | Hans Westbeek | [Unsplash](https://unsplash.com/photos/hands-using-a-digital-caliper-to-measure-metal-part-_luiFaaZU6k) |
 
 The home hero shows its three photos in turn, a new one every six seconds, behind the same headline and buttons. Under the buttons, centred, two arrows move to the previous or next photo and the bars between them pick any photo; on a phone a sideways swipe does the same. While the pointer or keyboard focus is on the arrows and bars, the photo waits. For visitors whose system asks for less motion, the photo changes only when they choose. To add a fourth photo, copy the `hero-3.jpg` line in the hero of all four home pages and change the file name in its `data-label` and `src`. `site.js` makes one bar per photo.
 
@@ -76,11 +81,11 @@ The browser tab icon is `assets/img/favicon.ico`, cut from the round symbol in t
 
 ## Design system
 
-- `assets/css/tokens.css`: the four colour families (graphite, steel blue, industrial white, safety amber), type scale and spacing. Change values here only.
+- `assets/css/tokens.css`: the five colour families (graphite, steel blue, navy from the old banner, industrial white, safety amber), type scale and spacing. Change values here only.
 - `assets/css/site.css`: components built on the tokens. `.on-dark` remaps the tokens for dark sections.
 - `assets/js/site.js`: mobile menu, hero photos, copy buttons and the contact form.
 
-Every page loads these three files with a version after the name, `?v=2026-11-09`, and `site.css` loads the banner the same way. GitHub Pages lets browsers keep each file for 10 minutes, so without the version a browser could show a new page with an old stylesheet. When you change one of these files, or the banner, change that date in all 25 pages and in `site.css`. Browsers then fetch the new files at once.
+Every page loads these three files with a version after the name, now `?v=2026-11-11`, and `site.css` loads the three banner images the same way (`?v=2026-11-11`). GitHub Pages lets browsers keep each file for 10 minutes, so without the version a browser could show a new page with an old stylesheet. When you change one of these files, change the version in all 25 pages. When you change a banner image, change its version in `site.css`. The four photos from the client (`ceh.jpg`, `cnc-strugovane.jpg`, `shlifovane.jpg`, `kontrol.jpg`) also load with `?v=2026-11-12`; change that too when you replace one of them. Use a new date, or the same date with `.2`, `.3` and so on. Browsers then fetch the new files at once.
 
 ## Contact form and details (`kontakti.html`)
 

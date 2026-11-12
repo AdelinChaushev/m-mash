@@ -20,8 +20,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="../assets/css/tokens.css?v=2026-11-09">
-  <link rel="stylesheet" href="../assets/css/site.css?v=2026-11-09">
+  <link rel="stylesheet" href="../assets/css/tokens.css?v=2026-11-12.2">
+  <link rel="stylesheet" href="../assets/css/site.css?v=2026-11-12.2">
   <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -48,7 +48,10 @@
 
   <header class="site-header" data-header>
     <div class="container site-header__inner">
-      <a class="brand-banner" href="index.html" aria-label="M-MASH Ltd. – home page"></a>
+      <a class="brand-banner" href="index.html" aria-label="M-MASH Ltd. – home page">
+        <span class="brand-banner__squares" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-banner__text" aria-hidden="true"><span class="brand-banner__name">M-Mash Ltd.</span> <span class="brand-banner__slogan">Great quality. Great value.</span></span>
+      </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
         <span class="visually-hidden">Open menu</span><span class="nav-toggle__bars" aria-hidden="true"></span>
       </button>
@@ -71,7 +74,7 @@
       <div class="container page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Quality</span></nav>
         <h1 class="h1 page-hero__title" id="page-title">Quality Is the Standard in Every Manufacturing Process.</h1>
-        <p class="lead page-hero__lead">At M-MASH, quality is a fundamental principle guiding our production activities and relationships with customers. We strive to ensure consistency, reliability and compliance with agreed technical requirements in the manufacture of metal components.</p>
+        <p class="lead page-hero__lead">At M-MASH, quality is a fundamental principle guiding our production activities and relationships with customers. We strive to ensure consistency, reliability and compliance with agreed technical requirements in the manufacture of components.</p>
       </div>
     </section>
 
@@ -79,7 +82,7 @@
     <section class="section section--surface" aria-labelledby="iso-title">
       <div class="container split split--media split--center">
         <figure class="photo" data-label="Photo: quality control&#10;assets/img/kontrol.jpg">
-          <img src="../assets/img/kontrol.jpg" alt="Checking the dimensions of a metal component" loading="lazy" onerror="this.parentNode.classList.add('photo--missing')">
+          <img src="../assets/img/kontrol.jpg?v=2026-11-12" alt="Checking the dimensions of a component" loading="lazy" onerror="this.parentNode.classList.add('photo--missing')">
         </figure>
         <div class="stack">
           <h2 class="h2" id="iso-title">Our Approach to Quality</h2>
@@ -114,7 +117,7 @@
         <h2 class="h2" id="trust-title">Quality That Builds Trust</h2>
         <div class="prose">
           <p>We believe sustainable business relationships are built on consistency, transparency and a clear understanding of customer requirements. That is why we view quality not merely as a final result, but as a responsibility throughout the manufacturing process.</p>
-          <p>Our goal is to be a reliable partner for companies seeking dependable metal component manufacturing and long-term cooperation.</p>
+          <p>Our goal is to be a reliable partner for companies seeking dependable component manufacturing and long-term cooperation.</p>
         </div>
       </div>
     </section>
@@ -123,7 +126,7 @@
     <section class="band on-dark" aria-labelledby="cta-title">
       <div class="container band__inner">
         <div>
-          <h2 class="band__title" id="cta-title">Do you have a technical drawing or a metal component to manufacture?</h2>
+          <h2 class="band__title" id="cta-title">Do you have a technical drawing or a component to manufacture?</h2>
           <p class="band__text">Contact us to discuss your requirements, material specifications and manufacturing possibilities.</p>
         </div>
         <a class="btn btn--primary btn--lg" href="contact.html#inquiry">Submit a Technical Inquiry</a>
@@ -157,7 +160,7 @@
           <a class="brand" href="index.html" aria-label="M-MASH Ltd. – home page">
             <img class="brand__logo" src="../assets/img/logo.svg" width="239" height="67" alt="M-MASH Ltd." onerror="this.onerror=null;this.classList.add('brand__logo--legacy');this.src='https://m-mash.net/images/logo.jpg'">
           </a>
-          <p>Metal components manufactured to your drawings. Production for industrial partners.</p>
+          <p>Components manufactured to your drawings. Production for industrial partners.</p>
         </div>
         <nav aria-label="Pages">
           <p class="footer-title">Pages</p>
@@ -193,6 +196,6 @@
     </div>
   </footer>
 
-  <script src="../assets/js/site.js?v=2026-11-09" defer></script>
+  <script src="../assets/js/site.js?v=2026-11-12.2" defer></script>
 </body>
 </html>
