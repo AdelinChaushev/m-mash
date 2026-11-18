@@ -13,7 +13,8 @@ if ($user !== false && $user !== '') {
     host('production')->setRemoteUser($user);
 }
 
-set('repository', 'git@github.com:AdelinChaushev/m-mash.git');
+set('repository', 'git@github.com:vdonchev/m-mash.git');
+set('git_ssh_command', 'ssh -o BatchMode=yes -o StrictHostKeyChecking=yes');
 set('keep_releases', 5);
 set('shared_files', ['config/.env.local']);
 set('shared_dirs', ['var']);

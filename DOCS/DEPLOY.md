@@ -1,12 +1,12 @@
 # VPS releases with PHP Deployer
 
-The `production` target in [`config/deploy.yaml`](../config/deploy.yaml) is `151.80.145.236:/var/www/m-mash.net`. The recipe in [`deploy.php`](../deploy.php) fetches `main` from the GitHub repository, installs locked production dependencies, checks the release and switches the `current` symlink. It retains five releases. It does not provision the VPS or change web-server settings.
+The `production` target in [`config/deploy.yaml`](../config/deploy.yaml) is `ubuntu@151.80.145.236:/var/www/m-mash.net`. The recipe in [`deploy.php`](../deploy.php) fetches `master` from `git@github.com:vdonchev/m-mash.git`, installs locked production dependencies, checks the release and switches the `current` symlink. It retains five releases. It does not provision the VPS or change web-server settings.
 
 ## Before the first release
 
-1. Use a non-root SSH deploy account with write access to `/var/www/m-mash.net`. Configure your SSH account/key for `151.80.145.236`, or pass the username with `MMASH_DEPLOY_USER`. Verify the SSH host key through a trusted channel. The VPS itself needs read access to `git@github.com:AdelinChaushev/m-mash.git` (e.g. a read-only GitHub deploy key and the verified GitHub host key); the recipe does not forward your SSH agent.
+1. Configure SSH access to `ubuntu@151.80.145.236` and verify the SSH host key through a trusted channel. `ubuntu` needs write access to `/var/www/m-mash.net`; the VPS needs GitHub's verified host key and read access to the repo. Prefer a repo-specific read-only deploy key for unattended releases. For an authorized one-off release from a trusted client and VPS, use the forwarded agent option below. Set `MMASH_DEPLOY_USER` only if a different SSH account is needed.
 2. Install Git, PHP 8.5 (CLI and web worker, with Composer's required extensions), Composer and `unzip` on the VPS. The remote `php` and `composer` commands must be on the deploy account's `PATH`.
-3. Prepare `/var/www/m-mash.net/shared/var` as a private writable directory owned by the PHP worker (mode `0700`), unless setting `MMASH_CONTACT_STATE_DIR` to another private location. Deployer preserves that state and `shared/config/.env.local` across releases and rollbacks. The deploy user must be able to read the override for the release check; grant the PHP worker read-only access if you use it. Keep AWS credentials outside the release tree. See [the SES checklist](CONTACT.md#vps-and-ses).
+3. Keep releases writable by `ubuntu`, not by Apache's `www-data` account. Confirm the PHP worker also runs as `www-data` if Apache uses a separate PHP-FPM pool. Prepare `/var/www/m-mash.net/shared/var` as a private directory owned by the PHP worker (mode `0700`), unless setting `MMASH_CONTACT_STATE_DIR` to another private location. Deployer preserves that state and `shared/config/.env.local` across releases and rollbacks. If using the override and both Apache and PHP run as `www-data`, use `ubuntu:www-data` ownership, mode `0750` for `shared/config/` and `0640` for `.env.local`: `ubuntu` can manage the file and PHP can read it without write access. Keep AWS credentials outside the release tree. See [the SES checklist](CONTACT.md#vps-and-ses).
 4. Plan the web-root switch to **`/var/www/m-mash.net/current/public`** after the first release exists. If the VPS already serves the old site, preserve its files and [legacy paths](PROJECT.md#legacy-m-mashnet-dependencies) before cutting over. Don't point the web server at the deploy root or replace an existing `current` directory without checking what's there.
 
 ## Deploy or roll back
@@ -18,16 +18,22 @@ composer install
 vendor/bin/dep tree deploy
 ```
 
-The task tree is local-only. When the intended commit is on GitHub and a release is authorized, run the following with your real SSH username (or omit `MMASH_DEPLOY_USER` if SSH already selects the correct user):
+The task tree is local-only. When the intended commit is on GitHub and a release is authorized, run:
 
 ```sh
-MMASH_DEPLOY_USER=your-ssh-user vendor/bin/dep deploy production
+vendor/bin/dep deploy production
+```
+
+If using your local SSH agent instead of a deploy key, forward it for this deploy only and disable SSH connection reuse:
+
+```sh
+vendor/bin/dep deploy production -o forward_agent=true -o ssh_multiplexing=false
 ```
 
 After release, verify the public URL, locale navigation and PHP routing. Test live SES delivery only with approval. To revert the `current` symlink to the previous release:
 
 ```sh
-MMASH_DEPLOY_USER=your-ssh-user vendor/bin/dep rollback production
+vendor/bin/dep rollback production
 ```
 
 Rollback does not revert shared settings or state.

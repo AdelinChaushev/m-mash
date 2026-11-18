@@ -1,6 +1,7 @@
 hosts:
   production:
     hostname: '151.80.145.236'
+    remote_user: ubuntu
     deploy_path: /var/www/m-mash.net
-    branch: main
+    branch: master
     forward_agent: false

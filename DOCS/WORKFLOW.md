@@ -22,6 +22,6 @@ Open <http://localhost:8765/> and use the site navigation or the [page map](PROJ
 
 The intended production host is a VPS running PHP 8.5 over HTTPS, with `current/public/` as the document root. Follow the [Deployer instructions](DEPLOY.md) and [SES checklist](CONTACT.md#vps-and-ses). The previous GitHub Pages preview is not needed and cannot execute PHP.
 
-- If GitHub Pages is still configured to publish `main`, turn it off before pushing this structure. Do not publish the repository root to a static host; it would expose private implementation files.
+- Do not publish the repository root through GitHub Pages or another static host; that would expose private implementation files.
 - Before any domain or hosting cutover, resolve the [legacy file dependencies](PROJECT.md#legacy-m-mashnet-dependencies), including any `files/` and `images/` routes that need to survive.
 - After an authorized release, verify the expected origin and path, primary pages and locale switching, shared asset versions, and affected external links. Record any release blockers in the handoff.
