@@ -1,0 +1,26 @@
+{
+    "name": "m-mash/website",
+    "description": "M-MASH website contact form",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": "~8.5.0",
+        "ext-curl": "*",
+        "ext-mbstring": "*",
+        "aws/aws-sdk-php": "^3",
+        "symfony/dotenv": "^7.4",
+        "symfony/yaml": "^7.4"
+    },
+    "require-dev": {
+        "deployer/deployer": "^8",
+        "phpmailer/phpmailer": "^7"
+    },
+    "autoload": {
+        "psr-4": {
+            "MMash\\Contact\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "@php tests/contact.php"
+    }
+}

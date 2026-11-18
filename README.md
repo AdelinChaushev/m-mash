@@ -1,8 +1,8 @@
 # M-MASH · m-mash.net
 
-Static manufacturing company website in Bulgarian, English, German and Italian. The site uses plain HTML, CSS and JavaScript: no installation or build step is required.
+Manufacturing company website in Bulgarian, English, German and Italian. The frontend is plain HTML, CSS and JavaScript with no build step. The contact form runs on PHP 8.5 and uses Composer and Amazon SES.
 
-The [page map](DOCS/PROJECT.md#page-map) lists the matching pages in each language. The [design reference](dizain-sistema.html) shows the shared styles and components.
+Serve **`public/`** as the document root, not the repository root. See the [contact setup](DOCS/CONTACT.md) for Mailpit testing and deploying with SES. The [page map](DOCS/PROJECT.md#page-map) lists the matching pages in each language; the [design reference](public/dizain-sistema.html) shows shared styles and components.
 
 ## Maintenance
 
@@ -12,4 +12,6 @@ The [page map](DOCS/PROJECT.md#page-map) lists the matching pages in each langua
 | [`DOCS/HANDOFF.md`](DOCS/HANDOFF.md) | Current state, open decisions and next actions |
 | [`DOCS/PROJECT.md`](DOCS/PROJECT.md) | Page map, inquiry form, notices and legacy dependencies |
 | [`DOCS/ASSETS.md`](DOCS/ASSETS.md) | Design, image slots and photo sources |
+| [`DOCS/CONTACT.md`](DOCS/CONTACT.md) | Inquiry endpoint, Mailpit and SES setup |
+| [`DOCS/DEPLOY.md`](DOCS/DEPLOY.md) | Deployer setup, VPS releases and rollback |
 | [`DOCS/WORKFLOW.md`](DOCS/WORKFLOW.md) | Verification, cache busting and releases |

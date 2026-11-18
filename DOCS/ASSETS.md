@@ -2,15 +2,15 @@
 
 ## Shared design
 
-- [`assets/css/tokens.css`](../assets/css/tokens.css) defines the graphite, steel blue, navy, industrial white and safety amber palettes, plus type and spacing. [`assets/css/site.css`](../assets/css/site.css) defines components; `.on-dark` remaps roles for dark sections.
+- [`public/assets/css/tokens.css`](../public/assets/css/tokens.css) defines the graphite, steel blue, navy, industrial white and safety amber palettes, plus type and spacing. [`public/assets/css/site.css`](../public/assets/css/site.css) defines components; `.on-dark` remaps roles for dark sections.
 - The banner follows the client's mock-up dated 11 November 2026, implemented in `ff2f231`. Three image slices recreate the old banner's dark top strip, logo and gears; CSS draws the blue field and squares. The brand text is live HTML inside the home link, which already has an accessible name. The header scrolls away. Desktop links are white with an amber active indicator and inquiry button; the mobile menu opens beneath the banner on a light background.
 - Banner scale is controlled by `--bh` on `.site-header`. Check around 402 px (106 px banner in the mock-up), the 1080 px menu switch, the 1081–1270 px compact desktop range and a wider viewport.
 - Inner-page `.page-hero` sections use navy and sky-blue breadcrumb links; the inquiry `.band` stays steel blue. Other dark sections use graphite. The footer uses the page's light background. `footer-gears.svg` and `footer-edge-gear.svg` are CSS masks on `.site-footer::before` and `main::after`; the rising gear needs room in the final section's bottom padding. End new public pages with `.band` or `.section`, or reserve that space explicitly.
-- The [design reference](../dizain-sistema.html) shows the tokens and components. It also states the preference for M-MASH's own photos; the current stock files are temporary exceptions, not photos of M-MASH's workshop.
+- The [design reference](../public/dizain-sistema.html) shows the tokens and components. It also states the preference for M-MASH's own photos; the current stock files are temporary exceptions, not photos of M-MASH's workshop.
 
 ## Image slots
 
-Images live in [`assets/img/`](../assets/img/). Reuse the existing filename and crop unless the design is changing. Aim for JPGs under about 400 KB, at roughly 80% quality. Keep alt text accurate in all affected locales. Keep decorative hero images at `alt=""`.
+Images live in [`public/assets/img/`](../public/assets/img/). Reuse the existing filename and crop unless the design is changing. Aim for JPGs under about 400 KB, at roughly 80% quality. Keep alt text accurate in all affected locales. Keep decorative hero images at `alt=""`.
 
 | File | Slot | Reference size |
 | --- | --- | --- |

@@ -1,0 +1,6 @@
+hosts:
+  production:
+    hostname: '151.80.145.236'
+    deploy_path: /var/www/m-mash.net
+    branch: main
+    forward_agent: false
