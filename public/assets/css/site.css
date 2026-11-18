@@ -182,123 +182,56 @@ p { text-wrap: pretty; }
   color: var(--color-text-muted);
 }
 
-/* ---------- Top bar ---------- */
-.topbar { background: var(--graphite-950); color: var(--graphite-300); font-size: var(--fs-xs); }
-.topbar__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  min-height: 2.5rem;
+/* ---------- Utility bar ---------- */
+.topbar {
+  --color-focus: var(--amber-400);
+  background: var(--navy-900);
+  color: var(--white);
+  font-size: var(--fs-xs);
 }
-.topbar__list { display: flex; flex-wrap: wrap; gap: 0.25rem 1.75rem; list-style: none; }
-.topbar__item { display: inline-flex; align-items: center; gap: 0.5rem; }
-.topbar__item .icon { width: 14px; height: 14px; color: var(--steel-400); }
-.topbar a { text-decoration: none; transition: color var(--dur-fast); }
-.topbar a:hover { color: var(--white); }
-.topbar__end { display: flex; align-items: center; gap: 1.5rem; flex: none; }
-
-/* Language switch: the current language is marked like the current page in the menu */
-.lang { display: flex; gap: 0.5rem; font-weight: 600; }
-.lang a { padding: 0.25rem; border-bottom: 2px solid transparent; }
-.lang a[aria-current="true"] { border-bottom-color: var(--amber-500); color: var(--white); }
-
-/* The location gives way first, so both emails stay on one row on tablets */
-@media (max-width: 970px) {
-  .topbar__item:first-child { display: none; }
-}
-@media (max-width: 800px) {
-  .topbar__item--wide { display: none; }
-}
-@media (max-width: 500px) {
-  .topbar__item--mid { display: none; }
-  .lang { gap: 0.25rem; }
+.topbar__inner, .topbar__list, .topbar__item, .lang { display: flex; align-items: center; }
+.topbar__inner { justify-content: space-between; gap: 0.5rem; }
+.topbar__list { gap: 1rem; list-style: none; }
+.topbar__item { gap: 0.5rem; white-space: nowrap; }
+.topbar__item + .topbar__item { border-inline-start: 1px solid var(--dark-border-strong); padding-inline-start: 1rem; }
+.topbar__item .icon { color: var(--steel-200); }
+.topbar a { text-decoration: none; }
+.topbar a:hover { text-decoration: underline; text-underline-offset: 0.22em; }
+.topbar__phone, .lang a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+.lang { flex: none; gap: 0.25rem; font-weight: 600; }
+.lang a { position: relative; justify-content: center; min-width: 2rem; }
+.lang a[aria-current="true"]::after {
+  content: "";
+  position: absolute;
+  inset: auto 0.375rem 0.3rem;
+  height: 2px;
+  background: var(--color-accent);
 }
 
 /* ---------- Header & navigation ---------- */
-/* The header is the old M-MASH banner across the whole screen, as in the client's mock-up (2026-11-11): the
-   dark strip with the small logo on top; below it the blue panel with the gears, the three squares and
-   "M-Mash Ltd. / Great quality. Great value." on the left, and the menu (on phones the menu button) on the
-   right, in white. The strip and the gears are cut from the old picture banner.png (banner-logo.png,
-   banner-strip.png, banner-gears.png); the blue, the squares and the lettering are drawn here, so they stay
-   sharp at any width. The banner is about a quarter of the screen width tall on phones and 150 px on tablets
-   and computers (lower on small laptops, so the menu fits beside the lettering). It is too tall to stay on
-   screen while scrolling, so it scrolls away with the page, as on the old m-mash.net site. */
-.site-header {
-  --bh: clamp(5rem, 26.3vw, 9.375rem);       /* height of the whole banner */
-  --strip: calc(var(--bh) * 81 / 366);       /* the dark strip with the small logo */
-  --band: calc(var(--bh) - var(--strip));    /* the blue panel under it */
-  --color-focus: var(--amber-400);
-  position: relative;
-  z-index: var(--z-header);
-  color: var(--white);
-  background:
-    url("../img/banner-logo.png?v=2026-11-11") left top / auto var(--strip) no-repeat,
-    url("../img/banner-strip.png?v=2026-11-11") left top / auto var(--strip) repeat-x,
-    /* shadow under the strip, and the dark lower edge */
-    linear-gradient(#000, rgb(0 0 0 / 0.3) 2.5%, rgb(0 0 0 / 0) 7%) left bottom / 100% var(--band) no-repeat,
-    linear-gradient(to top, var(--navy-950), rgb(1 21 40 / 0) 13%) left bottom / 100% var(--band) no-repeat,
-    /* light from the gears, then deep navy to the right */
-    radial-gradient(ellipse 100% 80% at 0 30%, var(--navy-500), rgb(45 106 163 / 0)) left bottom / calc(var(--band) * 2.4) var(--band) no-repeat,
-    linear-gradient(90deg, var(--navy-600) 30%, var(--navy-650) 55%, var(--navy-750) 80%, var(--navy-900)) left bottom / 100% var(--band) no-repeat,
-    var(--navy-900);
-}
-
-/* The banner's left part on the left, the menu (or on phones the menu button) on the right, both centred in
-   the blue panel. On the right the menu lines up with the page content. */
+.site-header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
 .site-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  min-height: var(--bh);
-  max-width: none;
-  padding-top: var(--strip);
-  padding-left: 0;
-  padding-right: max(var(--gutter), (100% - var(--container)) / 2);
+  gap: 1rem;
+  min-height: 5.5rem;
+  padding-block: 0.5rem;
 }
-
-/* The link to the home page: the whole left of the banner, from the small logo down to the bottom edge, with
-   the gears (::before), the three squares and the lettering. Its aria-label is its name. */
-.brand-banner {
-  --k: var(--band);                          /* scale of the squares and the lettering */
-  --sq: calc(var(--k) * 0.256);              /* one square */
-  position: relative;
-  display: flex;
+.header-brand {
+  display: inline-flex;
   align-items: center;
-  align-self: stretch;
   flex: none;
-  gap: calc(var(--k) * 0.16);
-  margin-top: calc(-1 * var(--strip));
-  padding: var(--strip) 0 0 calc(var(--k) * 1.07);
-  color: var(--white);
+  gap: 0.8rem;
+  min-height: 2.75rem;
+  color: var(--navy-900);
   text-decoration: none;
+  white-space: nowrap;
 }
-/* The gears, 1.3 times the panel's height as in the mock-up (the empty glow above them is cut off), fading
-   into the blue on their right */
-.brand-banner::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: calc(var(--band) * 1.1);
-  height: var(--band);
-  background: url("../img/banner-gears.png?v=2026-11-11") left bottom / auto 130% no-repeat;
-  -webkit-mask-image: linear-gradient(to right, #000 50%, transparent 96%);
-  mask-image: linear-gradient(to right, #000 50%, transparent 96%);
-}
-.brand-banner__squares { display: flex; flex: none; gap: calc(var(--sq) * 0.17); }
-.brand-banner__squares > span {
-  width: var(--sq);
-  height: var(--sq);
-  border: max(1.5px, calc(var(--band) * 0.016)) solid rgb(235 245 255 / 0.9);
-}
-.brand-banner__text { display: grid; justify-items: center; line-height: 1; white-space: nowrap; }
-.brand-banner__name { font-size: calc(var(--k) * var(--name-size, 0.33)); font-weight: 700; }
-.brand-banner__slogan { margin-top: calc(var(--k) * 0.08); font-size: calc(var(--k) * 0.14); }
-
-/* The design page has a link back to the site instead of the menu */
-.site-header .link-arrow { color: var(--white); }
+.header-brand__mark { width: 3.25rem; height: auto; flex: none; }
+.header-brand__text { display: grid; gap: 0.2rem; padding-inline-start: 0.8rem; border-inline-start: 1px solid var(--color-border); }
+.header-brand__name { font-size: 1.5rem; font-weight: 700; line-height: 1.1; letter-spacing: var(--tracking-tight); }
+.header-brand__slogan { color: var(--color-text-body); font-size: var(--fs-xs); line-height: 1.25; }
 
 /* Logo: assets/img/logo.svg, in the footer.
    Until that file exists, the old white-on-blue logo.jpg is used and
@@ -311,15 +244,18 @@ p { text-wrap: pretty; }
   transform: translateY(3px);
 }
 
-.nav { display: flex; align-items: center; gap: 1.5rem; }
+.nav { display: flex; align-items: center; flex: 1; gap: clamp(0.75rem, 1.5vw, 1.75rem); }
 .nav__list { display: flex; align-items: center; gap: 0.125rem; list-style: none; }
+.nav > .nav__list { margin-inline: auto; }
 .nav__link {
   position: relative;
-  display: block;
-  padding: 0.5rem 0.8rem;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: rgb(255 255 255 / 0.8);
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding-inline: clamp(0.4rem, 0.9vw, 0.8rem);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-text);
   text-decoration: none;
   white-space: nowrap;
   transition: color var(--dur-fast);
@@ -327,74 +263,47 @@ p { text-wrap: pretty; }
 .nav__link::after {
   content: "";
   position: absolute;
-  left: 0.8rem;
-  right: 0.8rem;
-  bottom: 0;
+  inset: auto clamp(0.4rem, 0.9vw, 0.8rem) 0;
   height: 3px;
-  background: var(--amber-500);
+  background: var(--color-accent);
   opacity: 0;
 }
-.nav__link:hover, .nav__link[aria-current="page"] { color: var(--white); }
+.nav__link:hover, .nav__link[aria-current="page"] { color: var(--navy-900); }
+.nav__link[aria-current="page"] { font-weight: 700; }
 .nav__link[aria-current="page"]::after { opacity: 1; }
-.nav-toggle { display: none; }
+.nav-toggle, .site-header .nav__cta--compact, .nav__meta { display: none; }
+.site-header .nav__cta { min-height: 2.75rem; white-space: nowrap; }
 
-/* On computers the menu keeps its full width, after a thin line like the one beside the menu button on phones */
-@media (min-width: 1081px) {
-  .brand-banner { --name-size: 0.3; }
-  .nav { flex: none; }
-  .nav::before {
-    content: "";
-    flex: none;
-    width: 1px;
-    height: calc(var(--band) * 0.42);
-    background: rgb(255 255 255 / 0.55);
+/* Keep this breakpoint aligned with the menu reset in site.js. The menu stays visible without JS. */
+@media (width < 66rem) {
+  .topbar__item--desktop { display: none; }
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-rows: minmax(3rem, auto);
+    gap: 0 0.5rem;
+    min-height: 0;
   }
-}
-
-/* Six links + CTA: tighten the desktop nav on narrower laptops, and lower the banner there (94 px at 1081 px,
-   150 px from about 1270 px), so the lettering keeps its room beside the menu */
-@media (min-width: 1081px) and (max-width: 1365px) {
-  .site-header { --bh: clamp(5.875rem, 5.875rem + (100vw - 67.5625rem) * 0.3, 9.375rem); }
-  .site-header__inner { gap: 1.25rem; }
-  .brand__logo { height: 2.75rem; }
-  .nav { gap: 1rem; }
-  .nav__link { padding-inline: 0.6rem; }
-  .nav__link::after { left: 0.6rem; right: 0.6rem; }
-  .nav__cta { white-space: nowrap; }
-}
-
-@media (max-width: 1080px) {
-  .site-header__inner { gap: 1rem; }
-  /* On phones the lettering follows the room left beside the menu button (402 px wide: as in the mock-up);
-     the design page's "Към сайта" link is a little wider than the button */
-  .brand-banner { --k: min(var(--band), (100vw - 4.5rem) / 4.15); }
-  .site-header:has(.link-arrow) .brand-banner { --k: min(var(--band), (100vw - 5.5rem) / 4.15); }
-  .brand__logo { height: 2.625rem; }
-
-  .js .nav-toggle {
-    position: relative;
-    display: inline-grid;
+  .header-brand { justify-self: start; gap: 0.4rem; }
+  .header-brand__mark { width: 2.25rem; }
+  .header-brand__text { border: 0; padding: 0; }
+  .header-brand__name { font-size: 1.125rem; }
+  .header-brand__suffix, .header-brand__slogan { display: none; }
+  .site-header .nav__cta--compact { display: inline-flex; grid-column: 2; padding-inline: 0.625rem; }
+  .site-header .nav__cta--desktop { display: none; }
+  .site-header .link-arrow { grid-column: 2 / -1; }
+  .nav-ready .nav-toggle {
+    display: grid;
+    grid-column: 3;
     place-items: center;
     width: 2.75rem;
     height: 2.75rem;
-    margin-right: -0.5rem;
     padding: 0;
-    background: none;
-    border: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    color: var(--white);
+    color: var(--navy-900);
     cursor: pointer;
-  }
-  /* The thin line between the lettering and the menu button, as in the mock-up */
-  .js .nav-toggle::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: -0.375rem;
-    width: 1px;
-    height: calc(var(--band) * 0.415);
-    background: rgb(255 255 255 / 0.75);
-    transform: translateY(-50%);
   }
   .nav-toggle__bars,
   .nav-toggle__bars::before,
@@ -412,35 +321,30 @@ p { text-wrap: pretty; }
   [aria-expanded="true"] .nav-toggle__bars::before { transform: rotate(45deg); }
   [aria-expanded="true"] .nav-toggle__bars::after { transform: rotate(-45deg); }
 
-  /* The open menu fills the screen below the bar; the banner above stays in view */
-  .js .nav {
-    position: fixed;
-    inset: var(--menu-top, 7rem) 0 0;
-    z-index: -1;
-    display: none;
+  .nav {
+    grid-column: 1 / -1;
     flex-direction: column;
     align-items: stretch;
-    justify-content: space-between;
-    gap: 2rem;
-    padding: 1rem var(--gutter) calc(1.5rem + env(safe-area-inset-bottom));
-    background: var(--color-bg);
-    color: var(--color-text);
-    --color-focus: var(--steel-500);
-    overflow-y: auto;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-bottom: 0.25rem;
+    border-top: 1px solid var(--color-border);
   }
-  .menu-open .nav { display: flex; }
-  .menu-open { overflow: hidden; }
-
-  .js .nav__list { flex-direction: column; align-items: stretch; gap: 0; }
-  .js .nav__link {
-    padding: 0.95rem 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--color-text);
+  .nav-ready .nav-toggle[aria-expanded="false"] + .nav { display: none; }
+  .nav > .nav__list { flex-direction: column; align-items: stretch; gap: 0; margin: 0; }
+  .nav__link {
+    padding: 0.5rem 0;
+    font-size: 1rem;
     border-bottom: 1px solid var(--color-border);
   }
-  .js .nav__link::after { left: 0; right: auto; bottom: -1px; width: 2.5rem; }
-  .js .nav__cta { width: 100%; min-height: 3.5rem; font-size: 1rem; }
+  .nav__link::after { left: 0; right: auto; bottom: -1px; width: 2.5rem; }
+  .nav__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1.25rem; color: var(--color-text-body); font-size: var(--fs-small); }
+  .nav__meta > * { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; }
+}
+
+@media (width < 24rem) {
+  .site-header .nav__cta--compact .icon { display: none; }
+  .lang { gap: 0; }
 }
 
 /* ---------- Buttons & links ---------- */

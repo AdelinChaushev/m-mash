@@ -3,8 +3,8 @@
 ## Shared design
 
 - [`public/assets/css/tokens.css`](../public/assets/css/tokens.css) defines the graphite, steel blue, navy, industrial white and safety amber palettes, plus type and spacing. [`public/assets/css/site.css`](../public/assets/css/site.css) defines components; `.on-dark` remaps roles for dark sections.
-- The banner follows the client's mock-up dated 11 November 2026, implemented in `ff2f231`. Three image slices recreate the old banner's dark top strip, logo and gears; CSS draws the blue field and squares. The brand text is live HTML inside the home link, which already has an accessible name. The header scrolls away. Desktop links are white with an amber active indicator and inquiry button; the mobile menu opens beneath the banner on a light background.
-- Banner scale is controlled by `--bh` on `.site-header`. Check around 402 px (106 px banner in the mock-up), the 1080 px menu switch, the 1081–1270 px compact desktop range and a wider viewport.
+- The header follows the refined CNC mockup: a navy contact and language strip above a white navigation row. The new mark redraws the angular M and open ring of the original logo; the wordmark and slogan are live HTML inside the named home link. The original artwork, footer logo and favicon are unchanged.
+- Below `66rem`, the header switches to the shorter wordmark and keeps the phone, four languages and localized inquiry button visible. The menu expands in the page flow and contains email and location; it is visible without JavaScript. The header is not sticky. Check a 320 px phone, both sides of the 1056 px breakpoint at default browser font size and a wide desktop.
 - Inner-page `.page-hero` sections use navy and sky-blue breadcrumb links; the inquiry `.band` stays steel blue. Other dark sections use graphite. The footer uses the page's light background. `footer-gears.svg` and `footer-edge-gear.svg` are CSS masks on `.site-footer::before` and `main::after`; the rising gear needs room in the final section's bottom padding. End new public pages with `.band` or `.section`, or reserve that space explicitly.
 - The [design reference](../public/dizain-sistema.html) shows the tokens and components. It also states the preference for M-MASH's own photos; the current stock files are temporary exceptions, not photos of M-MASH's workshop.
 
@@ -15,10 +15,11 @@ Images live in [`public/assets/img/`](../public/assets/img/). Reuse the existing
 | File | Slot | Reference size |
 | --- | --- | --- |
 | `logo.svg` | Optional dark logo in the shared footer; currently uses a legacy fallback | Vector |
-| `banner.png` | Original banner artwork used to create the three slices; not displayed directly | 760 × 366 |
-| `banner-logo.png` | Top strip with the logo | 240 × 81 |
-| `banner-strip.png` | Repeating top strip | 4 × 81 |
-| `banner-gears.png` | Gears with the crossing line and strip removed | 250 × 285 |
+| `m-mash-mark.svg` | Header mark redrawn from the original circular M | Vector, 64 × 64 viewBox |
+| `banner.png` | Original banner artwork, retained as a reference | 760 × 366 |
+| `banner-logo.png` | Retired banner: top strip with the original logo | 240 × 81 |
+| `banner-strip.png` | Retired banner: repeating top strip | 4 × 81 |
+| `banner-gears.png` | Retired banner: gears with the crossing line and strip removed | 250 × 285 |
 | `hero.jpg`, `hero-2.jpg`, `hero-3.jpg` | Home hero slides | 2400 × 1350 |
 | `ceh.jpg` | Home intro: machined parts on drawings | 1351 × 1013 |
 | `cnc-strugovane.jpg` | CNC turning | 1309 × 982 |

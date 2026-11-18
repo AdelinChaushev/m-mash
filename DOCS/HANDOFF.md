@@ -2,7 +2,8 @@
 
 ## Current baseline
 
-- The frontend still has no build step. All 25 pages and their assets moved under `public/` without changing visitor URLs. Shared CSS/JS uses `2026-11-18`.
+- The frontend still has no build step. All 25 pages and their assets are under `public/`. Shared CSS/JS uses `2026-11-18.2`.
+- The responsive header now uses a navy utility strip, white navigation row and a new SVG based on the original circular M. On compact screens the inquiry link stays visible and the menu opens in the page flow. Chromium checked all 25 pages, all four locales at 320–1440 px, keyboard and no-JS navigation, and the four contact-form links. The hero, footer, favicon and original artwork are unchanged. Known fallback requests for `logo.svg`, `sgrada.jpg` and design-page `example.jpg` still return 404 locally. Header changes are local only.
 - The four contact forms submit to a PHP 8.5 endpoint with localized inline and no-JS responses, optional phone, no attachments and private file-based rate limiting. Production defaults to SES v2. On this checkout, the ignored `config/.env.local` enables Mailpit on the working `m-mash.test` vhost; no Docker LAMP settings were changed. See [contact setup](CONTACT.md).
 - Git `origin` and Deployer both use `git@github.com:vdonchev/m-mash.git` on `master`. Confirmed the VPS can read the new repository with the existing agent forwarded for one connection. For future releases, see [deploy options](DEPLOY.md#deploy-or-roll-back).
 - Production releases are fetched from GitHub to `ubuntu@151.80.145.236:/var/www/m-mash.net`. Check `current/REVISION` for the active commit. Apache and PHP-FPM 8.5 both run as `www-data`. The recipe does not configure Apache or DNS.

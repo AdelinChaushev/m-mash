@@ -1,4 +1,4 @@
-/* М-Маш — site behaviour: header state, mobile menu, hero slides, copy buttons, contact form */
+/* М-Маш — site behaviour: mobile menu, hero slides, copy buttons, contact form */
 (() => {
   const root = document.documentElement;
   root.classList.add('js');
@@ -27,40 +27,33 @@
   };
   const text = strings[root.lang] || strings.bg;
 
-  /* Header shadow once the page scrolls; the open mobile menu tracks the header's bottom edge */
-  const header = document.querySelector('[data-header]');
-  const syncMenuTop = () => root.style.setProperty('--menu-top', `${header.getBoundingClientRect().bottom}px`);
-  const onScroll = () => {
-    header?.classList.toggle('is-scrolled', window.scrollY > 8);
-    if (root.classList.contains('menu-open')) syncMenuTop();
-  };
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
-
   /* Mobile menu */
   const toggle = document.querySelector('[data-nav-toggle]');
   const nav = document.getElementById('site-nav');
-  const toggleLabel = toggle?.querySelector('.visually-hidden');
+  if (toggle && nav) {
+    const toggleLabel = toggle.querySelector('.visually-hidden');
+    const compact = window.matchMedia('(width < 66rem)');
+    const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+    const setMenu = (open) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      if (toggleLabel) toggleLabel.textContent = open ? text.closeMenu : text.openMenu;
+    };
 
-  const setMenu = (open) => {
-    if (!toggle) return;
-    if (open) syncMenuTop();
-    toggle.setAttribute('aria-expanded', String(open));
-    if (toggleLabel) toggleLabel.textContent = open ? text.closeMenu : text.openMenu;
-    root.classList.toggle('menu-open', open);
-  };
-
-  toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
-  nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && root.classList.contains('menu-open')) {
+    toggle.addEventListener('click', () => setMenu(!isOpen()));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && compact.matches && isOpen()) {
+        setMenu(false);
+        toggle.focus();
+      }
+    });
+    compact.addEventListener('change', (event) => {
+      const active = document.activeElement;
       setMenu(false);
-      toggle.focus();
-    }
-  });
-  window.matchMedia('(max-width: 1080px)').addEventListener('change', (event) => {
-    if (!event.matches) setMenu(false);
-  });
+      if (event.matches && nav.contains(active)) toggle.focus();
+      if (!event.matches && active === toggle) (nav.querySelector('[aria-current="page"]') || nav.querySelector('a'))?.focus();
+    });
+    root.classList.add('nav-ready');
+  }
 
   /* Home hero slides: the photos take turns behind the headline every six seconds.
      Arrows and one bar per photo, centred under the buttons, and a swipe on touch screens.

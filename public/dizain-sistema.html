@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="assets/css/tokens.css?v=2026-11-18">
-  <link rel="stylesheet" href="assets/css/site.css?v=2026-11-18">
+  <link rel="stylesheet" href="assets/css/tokens.css?v=2026-11-18.2">
+  <link rel="stylesheet" href="assets/css/site.css?v=2026-11-18.2">
   <script>document.documentElement.classList.add('js')</script>
   <style>
     /* Reference-page-only helpers */
@@ -35,11 +35,14 @@
   </style>
 </head>
 <body>
-  <header class="site-header" data-header>
+  <header class="site-header">
     <div class="container site-header__inner">
-      <a class="brand-banner" href="index.html" aria-label="М-Маш ЕООД – начална страница">
-        <span class="brand-banner__squares" aria-hidden="true"><span></span><span></span><span></span></span>
-        <span class="brand-banner__text" aria-hidden="true"><span class="brand-banner__name">M-Mash Ltd.</span> <span class="brand-banner__slogan">Great quality. Great value.</span></span>
+      <a class="header-brand" href="index.html" aria-label="М-Маш ЕООД – начална страница">
+        <img class="header-brand__mark" src="assets/img/m-mash-mark.svg" width="64" height="64" alt="">
+        <span class="header-brand__text" aria-hidden="true">
+          <span class="header-brand__name">M-Mash<span class="header-brand__suffix"> Ltd.</span></span>
+          <span class="header-brand__slogan">Great quality. Great value.</span>
+        </span>
       </a>
       <a class="link-arrow" href="index.html">Към сайта</a>
     </div>
@@ -161,16 +164,14 @@
       <section class="ds-section">
         <div class="section-head">
           <h2 class="h2">Снимки и лого</h2>
-          <p class="muted">Сайтът очаква следните файлове в <code>assets/img/</code>. Докато файлът липсва, на мястото му се вижда неутрално поле с името му; логото временно се зарежда от стария сайт.</p>
+          <p class="muted">Изображенията са в <code>assets/img/</code>. При липсваща снимка може да се покаже неутрално поле или резервно изображение. Само логото в долния колонтитул все още се зарежда от стария сайт.</p>
         </div>
         <table class="ds-files">
           <thead><tr><th>Файл</th><th>Какво да показва</th><th>Къде</th><th>Размер</th></tr></thead>
           <tbody>
             <tr><td><code>logo.svg</code></td><td>Логото, тъмна версия</td><td>Долен колонтитул на всички страници</td><td>вектор</td></tr>
-            <tr><td><code>banner-logo.png</code></td><td>Тъмната лента на стария банер с малкото лого (готов)</td><td>Горе вляво в банера на всички страници</td><td>240 × 81</td></tr>
-            <tr><td><code>banner-strip.png</code></td><td>Празно парче от същата лента, повтаря се по ширината (готов)</td><td>Горе в банера на всички страници</td><td>4 × 81</td></tr>
-            <tr><td><code>banner-gears.png</code></td><td>Зъбните колела от стария банер, без тъмната ивица и линиите (готов)</td><td>Вляво в банера на всички страници</td><td>250 × 285</td></tr>
-            <tr><td><code>banner.png</code></td><td>Старият банер на М-Маш без хидравличния цилиндър, източникът на трите файла отгоре (готов)</td><td>Не се показва самостоятелно</td><td>760 × 366</td></tr>
+            <tr><td><code>m-mash-mark.svg</code></td><td>Прерисуван знак по оригиналното кръгло лого с буквата M</td><td>Горен колонтитул</td><td>вектор</td></tr>
+            <tr><td><code>banner.png</code></td><td>Оригиналният банер на М-Маш</td><td>Запазен за справка</td><td>760 × 366</td></tr>
             <tr><td><code>hero.jpg</code></td><td>Машина или цех в работа, хоризонтално</td><td>Начало – горна част, слайд 1</td><td>2400 × 1350</td></tr>
             <tr><td><code>hero-2.jpg</code></td><td>Обработка в близък план, хоризонтално</td><td>Начало – горна част, слайд 2</td><td>2400 × 1350</td></tr>
             <tr><td><code>hero-3.jpg</code></td><td>Готови детайли, хоризонтално</td><td>Начало – горна част, слайд 3</td><td>2400 × 1350</td></tr>
@@ -196,6 +197,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/site.js?v=2026-11-18" defer></script>
+  <script src="assets/js/site.js?v=2026-11-18.2" defer></script>
 </body>
 </html>
