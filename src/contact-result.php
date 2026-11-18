@@ -10,8 +10,8 @@ $e = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES | 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= $e($copy['title']) ?></title>
-  <link rel="stylesheet" href="assets/css/tokens.css?v=2026-11-18.2">
-  <link rel="stylesheet" href="assets/css/site.css?v=2026-11-18.2">
+  <link rel="stylesheet" href="assets/css/tokens.css?v=2026-11-18.4">
+  <link rel="stylesheet" href="assets/css/site.css?v=2026-11-18.4">
 </head>
 <body>
   <main class="section">

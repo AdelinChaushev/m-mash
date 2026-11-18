@@ -5,22 +5,22 @@
 
   const strings = {
     bg: {
-      openMenu: 'Отвори менюто', closeMenu: 'Затвори менюто', copy: 'Копирай', copied: 'Копирано',
+      closeMenu: 'Затвори менюто', copy: 'Копирай', copied: 'Копирано',
       sending: 'Изпращане…', sendError: 'Не успяхме да потвърдим изпращането. Опитайте отново по-късно или ни пишете директно.',
       photos: 'Снимки', photo: 'Снимка', of: 'от', prev: 'Предишна снимка', next: 'Следваща снимка',
     },
     en: {
-      openMenu: 'Open menu', closeMenu: 'Close menu', copy: 'Copy', copied: 'Copied',
+      closeMenu: 'Close menu', copy: 'Copy', copied: 'Copied',
       sending: 'Sending…', sendError: 'We couldn’t confirm that your inquiry was sent. Try again later or email us directly.',
       photos: 'Photos', photo: 'Photo', of: 'of', prev: 'Previous photo', next: 'Next photo',
     },
     de: {
-      openMenu: 'Menü öffnen', closeMenu: 'Menü schließen', copy: 'Kopieren', copied: 'Kopiert',
+      closeMenu: 'Menü schließen', copy: 'Kopieren', copied: 'Kopiert',
       sending: 'Wird gesendet…', sendError: 'Wir konnten den Versand nicht bestätigen. Versuchen Sie es später erneut oder schreiben Sie uns direkt.',
       photos: 'Fotos', photo: 'Foto', of: 'von', prev: 'Vorheriges Foto', next: 'Nächstes Foto',
     },
     it: {
-      openMenu: 'Apri il menu', closeMenu: 'Chiudi il menu', copy: 'Copia', copied: 'Copiato',
+      closeMenu: 'Chiudi il menu', copy: 'Copia', copied: 'Copiato',
       sending: 'Invio in corso…', sendError: 'Non abbiamo potuto confermare l’invio. Riprova più tardi o scrivici direttamente.',
       photos: 'Foto', photo: 'Foto', of: 'di', prev: 'Foto precedente', next: 'Foto successiva',
     },
@@ -30,27 +30,108 @@
   /* Mobile menu */
   const toggle = document.querySelector('[data-nav-toggle]');
   const nav = document.getElementById('site-nav');
-  if (toggle && nav) {
-    const toggleLabel = toggle.querySelector('.visually-hidden');
+  const brand = document.querySelector('.site-header .header-brand');
+  const languages = document.querySelector('.topbar .lang');
+  const phone = document.querySelector('.topbar__phone');
+  const email = nav?.querySelector('.nav__meta a[href^="mailto:"]');
+  const inquiry = nav?.querySelector('.nav__cta--desktop');
+  const menu = document.createElement('dialog');
+  if (toggle && nav && brand && languages && phone && email && inquiry && typeof menu.showModal === 'function') {
+    // Reuse the localized header links; the original nav remains the desktop and no-JS menu.
+    const element = (tag, className) => Object.assign(document.createElement(tag), { className });
     const compact = window.matchMedia('(width < 66rem)');
-    const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
-    const setMenu = (open) => {
-      toggle.setAttribute('aria-expanded', String(open));
-      if (toggleLabel) toggleLabel.textContent = open ? text.closeMenu : text.openMenu;
+    const desktopLink = nav.querySelector('[aria-current="page"]') || nav.querySelector('a');
+    const menuHeader = element('div', 'mobile-menu__header');
+    const menuBrand = brand.cloneNode(true);
+    const close = element('button', 'mobile-menu__close');
+    const closeIcon = element('span', 'mobile-menu__x');
+    closeIcon.setAttribute('aria-hidden', 'true');
+    close.type = 'button';
+    close.setAttribute('autofocus', '');
+    close.setAttribute('aria-label', text.closeMenu);
+    close.append(closeIcon);
+    menuHeader.append(menuBrand, close);
+
+    const menuBody = element('div', 'mobile-menu__body');
+    const menuNav = element('nav', 'mobile-menu__nav');
+    const label = nav.getAttribute('aria-label');
+    menuNav.setAttribute('aria-label', label);
+    menuNav.append(nav.querySelector('.nav__list').cloneNode(true));
+    const actions = element('div', 'mobile-menu__actions');
+    const menuInquiry = inquiry.cloneNode(true);
+    menuInquiry.classList.replace('nav__cta--desktop', 'mobile-menu__inquiry');
+    const contacts = element('div', 'mobile-menu__contacts');
+    const call = phone.cloneNode(true);
+    const phoneIcon = phone.previousElementSibling;
+    if (phoneIcon?.classList.contains('icon')) call.prepend(phoneIcon.cloneNode(true));
+    contacts.append(call, email.cloneNode(true));
+    actions.append(menuInquiry, languages.cloneNode(true), contacts);
+    menuBody.append(menuNav, actions);
+
+    menu.id = 'mobile-menu';
+    menu.className = 'mobile-menu';
+    menu.setAttribute('aria-label', label);
+    menu.append(menuHeader, menuBody);
+    document.body.append(menu);
+    toggle.setAttribute('aria-controls', menu.id);
+    toggle.setAttribute('aria-haspopup', 'dialog');
+
+    const closeMenu = () => {
+      menu.close();
+      root.classList.remove('mobile-menu-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      (compact.matches ? toggle : desktopLink)?.focus({ preventScroll: true });
     };
 
-    toggle.addEventListener('click', () => setMenu(!isOpen()));
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && compact.matches && isOpen()) {
-        setMenu(false);
-        toggle.focus();
+    toggle.addEventListener('click', () => {
+      if (!compact.matches || menu.open) return;
+      menu.scrollTop = 0;
+      root.classList.add('mobile-menu-open');
+      toggle.setAttribute('aria-expanded', 'true');
+      menu.showModal();
+    });
+    close.addEventListener('click', closeMenu);
+    menu.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeMenu();
+    });
+    menu.addEventListener('keydown', (event) => {
+      if (event.key !== 'Tab') return;
+      const last = contacts.lastElementChild;
+      if (event.shiftKey ? document.activeElement === menuBrand : document.activeElement === last) {
+        event.preventDefault();
+        (event.shiftKey ? last : menuBrand).focus();
       }
     });
+    menu.addEventListener('click', (event) => {
+      const link = event.target.closest('a[href]');
+      if (!link || event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      closeMenu();
+
+      // Reach an inquiry on this page without reloading or discarding the query string.
+      if (link.hash && link.origin === location.origin && link.pathname === location.pathname && !link.search) {
+        const target = document.getElementById(link.hash.slice(1));
+        if (!target) return;
+        event.preventDefault();
+        if (!target.hasAttribute('tabindex')) {
+          target.setAttribute('tabindex', '-1');
+          target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
+        }
+        target.focus({ preventScroll: true });
+        if (location.hash === link.hash) target.scrollIntoView();
+        else location.hash = link.hash;
+      }
+    });
+    // CSS can hide a focused control before the media query's change event fires.
+    const restoreOnResize = (from, hidden, to) => from.addEventListener('focusout', (event) => {
+      if (!event.relatedTarget && hidden()) queueMicrotask(() => {
+        if (document.activeElement === document.body) to?.focus({ preventScroll: true });
+      });
+    });
+    restoreOnResize(nav, () => compact.matches, toggle);
+    restoreOnResize(toggle, () => !compact.matches, desktopLink);
     compact.addEventListener('change', (event) => {
-      const active = document.activeElement;
-      setMenu(false);
-      if (event.matches && nav.contains(active)) toggle.focus();
-      if (!event.matches && active === toggle) (nav.querySelector('[aria-current="page"]') || nav.querySelector('a'))?.focus();
+      if (!event.matches && menu.open) closeMenu();
     });
     root.classList.add('nav-ready');
   }
