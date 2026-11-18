@@ -30,7 +30,7 @@ before('deploy:shared', 'deploy:prepare_dotenv');
 desc('Checks production dependencies and required release files');
 task('deploy:check_release', static function (): void {
     cd('{{release_path}}');
-    run('test -f public/index.html && test -f public/contact-submit.php && test -r config/contact.yaml && test -L config/.env && test -r config/.env');
+    run('test -f public/index.html && test -f public/.htaccess && test -f public/sitemap.xml && test -f public/robots.txt && test -f public/contact-submit.php && test -r config/contact.yaml && test -L config/.env && test -r config/.env');
     run('{{bin/composer}} check-platform-reqs --no-dev');
     run('{{bin/php}} -l public/contact-submit.php');
     run('{{bin/php}} -r ' . escapeshellarg('require "vendor/autoload.php"; MMash\Contact\ContactConfig::load(getcwd());'));

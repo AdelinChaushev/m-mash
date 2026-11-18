@@ -18,6 +18,23 @@ The `production` target in [`config/deploy.yaml`](../config/deploy.yaml) is `ubu
    Edit `.env` as `ubuntu`. Keep `.env.local` empty in production unless you deliberately need an override.
 4. Plan the web-root switch to **`/var/www/m-mash.net/current/public`** after the first release exists. If the VPS already serves the old site, preserve its files and [legacy paths](PROJECT.md#legacy-m-mashnet-dependencies) before cutting over. Don't point the web server at the deploy root or replace an existing `current` directory without checking what's there.
 
+## Apache routing
+
+Use `mod_rewrite` and `mod_dir` on the public virtual host. The release-local [`public/.htaccess`](../public/.htaccess) contains the route allowlist and redirects so they roll back with the site. Merge this into the vhost serving the site, alongside its existing TLS and PHP-FPM configuration:
+
+```apache
+DocumentRoot /var/www/m-mash.net/current/public
+
+<Directory /var/www/m-mash.net/current/public>
+    Options +FollowSymLinks -Indexes -MultiViews
+    AllowOverride FileInfo Indexes Options=Indexes,MultiViews
+    DirectoryIndex index.html
+    Require all granted
+</Directory>
+```
+
+Run `apache2ctl configtest` before reloading, then smoke-test the vhost before switching DNS. Check `301` responses, query string preservation, `/sitemap.xml`, and PHP execution on `/contact-submit.php`. The rewrite rules do not handle the PHP endpoint or legacy `files/` and `images/` paths; keep serving the legacy documents and images separately.
+
 ## Deploy or roll back
 
 From the local checkout:

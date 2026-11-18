@@ -24,9 +24,9 @@ The vhost must already serve `public/`. No Docker or Apache settings are needed 
 docker exec --user www-data docker-lamp_web-1 mkdir -p -m 700 /var/www/m-mash.test/var
 ```
 
-Submit dummy data at <https://m-mash.test/kontakti.html> and check the [Mailpit inbox](http://localhost:8025/) and the `Reply-To` header. Mailpit uses the development-only PHPMailer dependency and defaults to `website@example.test` as sender. Ensure Mailpit forwarding and relay are disabled.
+Submit dummy data at <https://m-mash.test/kontakti#zapitvane> and check the [Mailpit inbox](http://localhost:8025/) and the `Reply-To` header. Mailpit uses the development-only PHPMailer dependency and defaults to `website@example.test` as sender. Ensure Mailpit forwarding and relay are disabled.
 
-If you run `php -S` from WSL instead of using the vhost, override the Mailpit host with `MMASH_MAILPIT_HOST=127.0.0.1` on the command line and, if the Docker worker owns `var/`, use a separate private `MMASH_CONTACT_STATE_DIR` writable by your WSL user.
+For endpoint-only testing with `php -S` from WSL, override the Mailpit host with `MMASH_MAILPIT_HOST=127.0.0.1` on the command line and, if the Docker worker owns `var/`, use a separate private `MMASH_CONTACT_STATE_DIR` writable by your WSL user. Use Apache to test navigation and clean URLs.
 
 Run `composer test` for configuration precedence, validation, rate-limit and mocked SES request checks. These tests don't contact AWS or Mailpit.
 

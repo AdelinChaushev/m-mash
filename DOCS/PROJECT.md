@@ -6,16 +6,16 @@ M-MASH is a multilingual manufacturing company website. The frontend is plain HT
 
 | Page | Bulgarian (root) | English | German | Italian |
 | --- | --- | --- | --- | --- |
-| Home | [`index.html`](../public/index.html) | [`en/index.html`](../public/en/index.html) | [`de/index.html`](../public/de/index.html) | [`it/index.html`](../public/it/index.html) |
-| About | [`za-nas.html`](../public/za-nas.html) | [`en/about.html`](../public/en/about.html) | [`de/ueber-uns.html`](../public/de/ueber-uns.html) | [`it/chi-siamo.html`](../public/it/chi-siamo.html) |
-| Capabilities | [`vazmozhnosti.html`](../public/vazmozhnosti.html) | [`en/capabilities.html`](../public/en/capabilities.html) | [`de/fertigung.html`](../public/de/fertigung.html) | [`it/capacita.html`](../public/it/capacita.html) |
-| Services | [`uslugi.html`](../public/uslugi.html) | [`en/services.html`](../public/en/services.html) | [`de/leistungen.html`](../public/de/leistungen.html) | [`it/servizi.html`](../public/it/servizi.html) |
-| Quality | [`kachestvo.html`](../public/kachestvo.html) | [`en/quality.html`](../public/en/quality.html) | [`de/qualitaet.html`](../public/de/qualitaet.html) | [`it/qualita.html`](../public/it/qualita.html) |
-| Contact | [`kontakti.html`](../public/kontakti.html) | [`en/contact.html`](../public/en/contact.html) | [`de/kontakt.html`](../public/de/kontakt.html) | [`it/contatti.html`](../public/it/contatti.html) |
+| Home | [`/`](../public/index.html) | [`/en/`](../public/en/index.html) | [`/de/`](../public/de/index.html) | [`/it/`](../public/it/index.html) |
+| About | [`/za-nas`](../public/za-nas.html) | [`/en/about`](../public/en/about.html) | [`/de/ueber-uns`](../public/de/ueber-uns.html) | [`/it/chi-siamo`](../public/it/chi-siamo.html) |
+| Capabilities | [`/proizvodstvo`](../public/vazmozhnosti.html) | [`/en/capabilities`](../public/en/capabilities.html) | [`/de/fertigung`](../public/de/fertigung.html) | [`/it/capacita`](../public/it/capacita.html) |
+| Services | [`/uslugi`](../public/uslugi.html) | [`/en/services`](../public/en/services.html) | [`/de/leistungen`](../public/de/leistungen.html) | [`/it/servizi`](../public/it/servizi.html) |
+| Quality | [`/kachestvo`](../public/kachestvo.html) | [`/en/quality`](../public/en/quality.html) | [`/de/qualitaet`](../public/de/qualitaet.html) | [`/it/qualita`](../public/it/qualita.html) |
+| Contact | [`/kontakti`](../public/kontakti.html) | [`/en/contact`](../public/en/contact.html) | [`/de/kontakt`](../public/de/kontakt.html) | [`/it/contatti`](../public/it/contatti.html) |
 
 The 24 public pages duplicate their utility bar, header navigation and footer. [`dizain-sistema.html`](../public/dizain-sistema.html) is a Bulgarian design reference with a simplified header and footer. It uses the shared assets and is marked `noindex, nofollow`; that does not restrict access.
 
-The language switch should open the matching page, not the other language's home page. Public pages use `lang`, localized metadata and absolute canonical and `hreflang` links on `https://m-mash.net/`. Keep all counterparts aligned when URLs change. German headings use `&shy;` at compound boundaries where long words need a line-break opportunity.
+The page map shows public URLs and links to their backing HTML files. [`public/.htaccess`](../public/.htaccess) serves the clean URLs and redirects old `.html` URLs with a `301`. Only the homepages end in a slash. Keep the language switch on the matching page and keep canonical links, reciprocal `hreflang`, and [`sitemap.xml`](../public/sitemap.xml) aligned on `https://m-mash.net/`. German headings use `&shy;` at compound boundaries where long words need a line-break opportunity.
 
 ## Content and behavior
 

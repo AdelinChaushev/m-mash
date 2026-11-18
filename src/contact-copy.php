@@ -2,7 +2,7 @@
 
 return [
     'bg' => [
-        'page' => 'kontakti.html#zapitvane',
+        'page' => 'kontakti#zapitvane',
         'title' => 'Запитване до М-Маш',
         'back' => 'Обратно към контактите',
         'send' => 'Изпратете запитване',
@@ -14,7 +14,7 @@ return [
         'request' => 'Заявката не може да бъде обработена. Отворете формуляра на страницата за контакти.',
     ],
     'en' => [
-        'page' => 'en/contact.html#inquiry',
+        'page' => 'en/contact#inquiry',
         'title' => 'Inquiry to M-MASH',
         'back' => 'Back to the contact page',
         'send' => 'Send inquiry',
@@ -26,7 +26,7 @@ return [
         'request' => 'This request could not be processed. Please use the form on the contact page.',
     ],
     'de' => [
-        'page' => 'de/kontakt.html#anfrage',
+        'page' => 'de/kontakt#anfrage',
         'title' => 'Anfrage an M-MASH',
         'back' => 'Zurück zur Kontaktseite',
         'send' => 'Anfrage senden',
@@ -38,7 +38,7 @@ return [
         'request' => 'Diese Anfrage konnte nicht verarbeitet werden. Bitte nutzen Sie das Formular auf der Kontaktseite.',
     ],
     'it' => [
-        'page' => 'it/contatti.html#richiesta',
+        'page' => 'it/contatti#richiesta',
         'title' => 'Richiesta a M-MASH',
         'back' => 'Torna alla pagina dei contatti',
         'send' => 'Invia richiesta',

@@ -2,7 +2,7 @@
 
 Manufacturing company website in Bulgarian, English, German and Italian. The frontend is plain HTML, CSS and JavaScript with no build step. The contact form runs on PHP 8.5 and uses Composer and Amazon SES.
 
-Serve **`public/`** as the document root, not the repository root. See the [contact setup](DOCS/CONTACT.md) for Mailpit testing and deploying with SES. The [page map](DOCS/PROJECT.md#page-map) lists the matching pages in each language; the [design reference](public/dizain-sistema.html) shows shared styles and components.
+Serve **`public/`** as the document root, not the repository root. The [Apache routing setup](DOCS/DEPLOY.md#apache-routing) enables clean URLs and redirects from the old `.html` links. See the [contact setup](DOCS/CONTACT.md) for Mailpit and SES, the [page map](DOCS/PROJECT.md#page-map) for the four locales, and the [design reference](public/dizain-sistema.html) for shared styles and components.
 
 ## Maintenance
 

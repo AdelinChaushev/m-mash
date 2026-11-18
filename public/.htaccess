@@ -1,0 +1,24 @@
+# This file belongs in the public document root. Keep rules scoped to named pages.
+Options -Indexes -MultiViews
+FallbackResource disabled
+RewriteEngine On
+
+# Redirect public index.html requests, but not Apache's DirectoryIndex lookup.
+# Capture the directory from the request so redirects also work under a mount path.
+RewriteCond %{THE_REQUEST} "\s/[^?\s]*index\.html[?\s]"
+RewriteCond %{REQUEST_URI} ^(/(?:[A-Za-z0-9._~-]+/)*)index\.html$
+RewriteRule ^(?:(?:en|de|it)/)?index\.html$ %1 [R=301,END]
+
+# Bulgarian capabilities uses a new slug, backed by the original HTML file.
+RewriteCond %{REQUEST_URI} ^(/(?:[A-Za-z0-9._~-]+/)*)(?:vazmozhnosti(?:\.html)?/?|proizvodstvo/)$
+RewriteRule ^(?:vazmozhnosti(?:\.html)?/?|proizvodstvo/)$ %1proizvodstvo [R=301,END]
+RewriteRule ^proizvodstvo$ vazmozhnosti.html [END]
+
+# Canonical content URLs have no extension or trailing slash.
+RewriteCond %{REQUEST_URI} ^(/(?:[A-Za-z0-9._~-]+/)*[a-z-]+)(?:\.html|/)$
+RewriteRule ^(?:za-nas|uslugi|kachestvo|kontakti|en/(?:about|capabilities|services|quality|contact)|de/(?:ueber-uns|fertigung|leistungen|qualitaet|kontakt)|it/(?:chi-siamo|capacita|servizi|qualita|contatti))(?:\.html|/)$ %1 [R=301,END]
+
+RewriteRule ^(za-nas|uslugi|kachestvo|kontakti)$ $1.html [END]
+RewriteRule ^(en/(?:about|capabilities|services|quality|contact))$ $1.html [END]
+RewriteRule ^(de/(?:ueber-uns|fertigung|leistungen|qualitaet|kontakt))$ $1.html [END]
+RewriteRule ^(it/(?:chi-siamo|capacita|servizi|qualita|contatti))$ $1.html [END]
