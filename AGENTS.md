@@ -7,7 +7,7 @@
 
 ## Working rules
 
-- The site has no frontend build step. Serve only `public/`; the inquiry endpoint needs PHP 8.5 and Composer dependencies. Keep `src/`, `vendor/`, `config/` and runtime state outside the document root. Don't commit `.local` configuration files.
+- The site has no frontend build step. Serve only `public/`; the inquiry endpoint needs PHP 8.5 and Composer dependencies. Keep `src/`, `vendor/`, `config/` and runtime state outside the document root. Don't commit `config/.env` or `.local` configuration files.
 - Bulgarian pages live in `public/`; their counterparts are under `public/en/`, `public/de/` and `public/it/`. For a shared content or component change, check all four variants and keep intentional locale differences. The public top bar, navigation and footer are duplicated; also inspect `public/dizain-sistema.html` when changing shared banner, footer or styling.
 - Use page-relative internal links and asset paths so the site works both at the domain root and under a hosting subpath. Keep absolute canonical and `hreflang` URLs pointed at the intended public domain.
 - Design values belong in `public/assets/css/tokens.css`, component styles in `public/assets/css/site.css`, and JavaScript-generated translations in `public/assets/js/site.js`. If any shared CSS/JS changes, advance the common `?v=` value for all three files in all 25 HTML pages and for the two CSS links in `src/contact-result.php`. See the workflow for versioned images.

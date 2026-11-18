@@ -6,7 +6,7 @@ The endpoint checks allowed request methods, payload size, expected form encodin
 
 ## Configuration
 
-Tracked defaults live in `config/contact.yaml` and `config/.env`. From highest to lowest priority: the PHP worker's environment, `config/.env.local`, `config/contact.local.yaml`, `config/.env`, then `config/contact.yaml`. Both `.local` files are ignored by Git and stay outside `public/`. Use literal values in the dotenv files; the loader reads the supported contact settings without exporting variables to the process environment. The AWS SDK still obtains credentials separately.
+Tracked defaults live in `config/contact.yaml`, and [`config/.env.example`](../config/.env.example) is a template, not loaded at runtime. For general contact settings, priority is the PHP worker's environment, `config/.env.local`, `config/contact.local.yaml`, `config/.env`, then `config/contact.yaml`. Git ignores `.env` and the local overrides; all stay outside `public/`. Use literal values. The loader reads the AWS key pair together from `.env` only and supplies it directly to the SES client without exporting it. If neither key is set, the AWS SDK's standard credential providers remain available.
 
 ## Local testing with Mailpit
 
@@ -35,15 +35,14 @@ Run `composer test` for configuration precedence, validation, rate-limit and moc
 1. Follow the [Deployer setup](DEPLOY.md). The HTTPS document root is `/var/www/m-mash.net/current/public`. Configure PHP 8.5 to execute `.php` rather than serve its source. Disable directory listings and configure a `64 KiB` body limit on the submit route. Keep PHP `display_errors` off and don't log request bodies. Make sure files above `public/` can't be reached over HTTP.
 2. Deployer installs production dependencies and checks platform requirements. Give the PHP worker write access to the shared state directory, or set a separate private directory owned by the worker and mode `0700`. Don't give the worker write access to configuration, source code or dependencies.
 3. After gaining DNS control, verify `m-mash.net` and DKIM in your chosen SES region. Request production access in that same region; while in the sandbox, the recipient must also be verified. Confirm that `info@m-mash.net` receives mail with the existing inbox provider; SES is only for outgoing mail here. Preserve the required MX records at domain cutover.
-4. Set non-secret contact options in the PHP worker environment or VPS `shared/config/.env.local`. Give the worker read access only if using that file. Configure AWS credentials separately through a provider supported by the SDK; for PHP-FPM, make sure the pool passes any required environment variables even if `clear_env` is on. Keep AWS secrets outside the checkout and web root.
+4. Put all SES settings in `/var/www/m-mash.net/shared/config/.env`. See the [file permissions](DEPLOY.md#before-the-first-release) before adding the key. No SMTP credentials, separate AWS credentials file, or PHP-FPM environment configuration is needed.
 
-   | Setting | Production value |
-   | --- | --- |
-   | `MMASH_CONTACT_TRANSPORT` | `ses` (default) |
-   | `AWS_REGION` | Region of the verified SES identity and approved sending account |
-   | `MMASH_CONTACT_FROM` | Fixed sender on the verified domain, e.g. `website@m-mash.net` |
-   | `MMASH_CONTACT_STATE_DIR` | Writable private directory; defaults to `<checkout>/var` |
-   | AWS credentials | Prefer a role when available, otherwise a dedicated credential set supplied through the SDK's default credential chain. For a non-AWS VPS without an instance role, set `AWS_EC2_METADATA_DISABLED=true`. |
+   ```dotenv
+   AWS_REGION=eu-central-1
+   AWS_ACCESS_KEY_ID=your_access_key_id
+   AWS_SECRET_ACCESS_KEY=your_secret_access_key
+   MMASH_CONTACT_FROM=website@m-mash.net
+   ```
 
-   Grant only `ses:SendEmail` for the verified SES identity. Restrict permissions further with `ses:FromAddress` set to the configured sender and `ses:Recipients` limited to `info@m-mash.net`. No SES SMTP credentials are used in production; the SDK signs the SES v2 API request over HTTPS.
+   Use the actual verified region and sender. Grant only `ses:SendEmail` for the verified SES identity. Restrict `ses:FromAddress` to the configured sender, and `ses:Recipients` to `info@m-mash.net`. Other sites running as the same PHP user could read this file, so never use a general AWS key. Use a dedicated PHP user if those sites aren't trusted.
 5. With approval, submit a dummy inquiry to verify real inbox delivery and that Reply targets the visitor. The form confirms SES acceptance, not delivery. Monitor SES bounces and complaints after launch. Confirm the approved privacy notice covers inquiry processing through SES as well as the other site services.

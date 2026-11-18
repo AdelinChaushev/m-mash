@@ -32,26 +32,31 @@ foreach (['MMASH_CONTACT_TRANSPORT', 'MMASH_CONTACT_FROM', 'AWS_REGION', 'MMASH_
 try {
     $configDir = $configRoot . '/config';
     copy(dirname(__DIR__) . '/config/contact.yaml', $configDir . '/contact.yaml');
-    copy(dirname(__DIR__) . '/config/.env', $configDir . '/.env');
     $config = ContactConfig::load($configRoot);
     same('ses', $config->transport, 'Default transport is SES');
     same('127.0.0.1', $config->mailpitHost, 'Default Mailpit host');
     same('1025', $config->mailpitPort, 'YAML port number is normalized');
     same($configRoot . '/var', $config->stateDir, 'Default state is under the checkout');
+    same(null, $config->sesCredentials, 'Absent dotenv permits the AWS credential provider chain');
 
-    file_put_contents($configDir . '/.env', "AWS_REGION=eu-central-1\nMMASH_MAILPIT_HOST=base-env.test\n");
+    file_put_contents($configDir . '/.env', "AWS_REGION=eu-central-1\nMMASH_MAILPIT_HOST=base-env.test\nAWS_ACCESS_KEY_ID=fake-dotenv-key\nAWS_SECRET_ACCESS_KEY=fake-dotenv-secret\n");
     file_put_contents($configDir . '/contact.local.yaml', "MMASH_MAILPIT_HOST: local-yaml.test\n");
-    file_put_contents($configDir . '/.env.local', '');
+    file_put_contents($configDir . '/.env.local', "AWS_ACCESS_KEY_ID=fake-unused-override\n");
     $config = ContactConfig::load($configRoot);
-    same('eu-central-1', $config->region, 'Tracked dotenv supplies a default');
-    same('local-yaml.test', $config->mailpitHost, 'Local YAML overrides tracked defaults');
+    same('eu-central-1', $config->region, 'Base dotenv sets the SES region');
+    same('local-yaml.test', $config->mailpitHost, 'Local YAML overrides base defaults');
+    $dotenvCredentials = $config->sesCredentials;
+    same('fake-dotenv-key', $dotenvCredentials?->getAccessKeyId(), 'SES key comes from the base dotenv only');
+    same('fake-dotenv-secret', $dotenvCredentials?->getSecretKey(), 'SES secret comes from the base dotenv');
+    same(false, getenv('AWS_ACCESS_KEY_ID') === 'fake-dotenv-key', 'Credentials are not exported to the process environment');
+    same(false, ($_ENV['AWS_SECRET_ACCESS_KEY'] ?? '') === 'fake-dotenv-secret', 'Credentials are not exported to PHP globals');
 
     file_put_contents($configDir . '/.env.local', "MMASH_CONTACT_TRANSPORT=mailpit\nMMASH_MAILPIT_HOST='lamp_mailpit'\nMMASH_CONTACT_STATE_DIR=/tmp/private-state\nAWS_ACCESS_KEY_ID=fake-unused\n");
     $config = ContactConfig::load($configRoot);
     same('lamp_mailpit', $config->mailpitHost, 'Local dotenv takes precedence over local YAML');
     same('website@example.test', $config->from, 'Mailpit can run without an SES sender');
     same('/tmp/private-state', $config->stateDir, 'Absolute state directory remains unchanged');
-    same(false, isset($_ENV['AWS_ACCESS_KEY_ID']) && $_ENV['AWS_ACCESS_KEY_ID'] === 'fake-unused', 'Contact config is not exported to the environment');
+    same(null, $config->sesCredentials, 'Mailpit does not use SES credentials');
 
     putenv('MMASH_CONTACT_TRANSPORT=ses');
     putenv('MMASH_MAILPIT_HOST=server-env.test');
@@ -65,6 +70,24 @@ try {
         throw new LogicException('Dotenv command substitution should have been refused');
     } catch (RuntimeException $error) {
         same('Shell command substitution is not supported in contact configuration', $error->getMessage(), 'Configuration never executes shell commands');
+    }
+
+    file_put_contents($configDir . '/.env.local', '');
+    file_put_contents($configDir . '/.env', "AWS_ACCESS_KEY_ID=fake-incomplete-key\n");
+    try {
+        ContactConfig::load($configRoot);
+        throw new LogicException('Partial SES credentials should have been refused');
+    } catch (RuntimeException $error) {
+        same('Both SES access key settings are required in config/.env', $error->getMessage(), 'Reject incomplete credentials without exposing the key');
+    }
+
+    file_put_contents($configDir . '/.env', "AWS_SECRET_ACCESS_KEY='fake-malformed-secret\n");
+    try {
+        ContactConfig::load($configRoot);
+        throw new LogicException('Malformed dotenv should have been refused');
+    } catch (RuntimeException $error) {
+        same('Invalid dotenv syntax in .env', $error->getMessage(), 'Dotenv parse errors never expose credentials');
+        same(null, $error->getPrevious(), 'The original parser exception is not propagated');
     }
 } finally {
     foreach ($previousEnv as $key => $value) {
@@ -129,6 +152,7 @@ $mock = new MockHandler([
         same('SendEmail', $command->getName(), 'SES v2 operation');
         same('POST', $request->getMethod(), 'SES v2 request method');
         same('/v2/email/outbound-emails', $request->getUri()->getPath(), 'SES v2 request path');
+        same(true, str_contains($request->getHeaderLine('Authorization'), 'Credential=fake-dotenv-key/'), 'SES request uses the loaded dotenv key');
         $payload = json_decode((string) $request->getBody(), true, flags: JSON_THROW_ON_ERROR);
         same('website@example.test', $payload['FromEmailAddress'], 'Verified sender is separate from reply address');
         same(['ToAddresses' => ['info@m-mash.net']], $payload['Destination'], 'Fixed recipient');
@@ -141,7 +165,7 @@ $mock = new MockHandler([
 $ses = new SesV2Client([
     'version' => '2019-09-27',
     'region' => 'eu-central-1',
-    'credentials' => ['key' => 'fake-key', 'secret' => 'fake-secret'],
+    'credentials' => $dotenvCredentials,
     'handler' => $mock,
     'retries' => 0,
 ]);

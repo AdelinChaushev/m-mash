@@ -16,14 +16,21 @@ if ($user !== false && $user !== '') {
 set('repository', 'git@github.com:vdonchev/m-mash.git');
 set('git_ssh_command', 'ssh -o BatchMode=yes -o StrictHostKeyChecking=yes');
 set('keep_releases', 5);
-set('shared_files', ['config/.env.local']);
+set('shared_files', ['config/.env', 'config/.env.local']);
 set('shared_dirs', ['var']);
 set('bin/composer', static fn (): string => '{{bin/php}} ' . escapeshellarg(which('composer')));
+
+desc('Creates the shared SES config without granting public read access');
+task('deploy:prepare_dotenv', static function (): void {
+    run('umask 077; mkdir -p {{deploy_path}}/shared/config'
+        . ' && (test -f {{deploy_path}}/shared/config/.env || (set -C; : > {{deploy_path}}/shared/config/.env))');
+});
+before('deploy:shared', 'deploy:prepare_dotenv');
 
 desc('Checks production dependencies and required release files');
 task('deploy:check_release', static function (): void {
     cd('{{release_path}}');
-    run('test -f public/index.html && test -f public/contact-submit.php && test -r config/contact.yaml && test -r config/.env');
+    run('test -f public/index.html && test -f public/contact-submit.php && test -r config/contact.yaml && test -L config/.env && test -r config/.env');
     run('{{bin/composer}} check-platform-reqs --no-dev');
     run('{{bin/php}} -l public/contact-submit.php');
     run('{{bin/php}} -r ' . escapeshellarg('require "vendor/autoload.php"; MMash\Contact\ContactConfig::load(getcwd());'));

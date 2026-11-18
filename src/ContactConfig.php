@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace MMash\Contact;
 
+use Aws\Credentials\Credentials;
 use RuntimeException;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\Dotenv\Exception\FormatException;
 use Symfony\Component\Yaml\Yaml;
 
 final readonly class ContactConfig
@@ -22,15 +24,18 @@ final readonly class ContactConfig
         public string $mailpitHost,
         public string $mailpitPort,
         public string $stateDir,
+        public ?Credentials $sesCredentials,
     ) {
     }
 
     public static function load(string $root): self
     {
         $directory = $root . '/config';
+        $dotenv = $directory . '/.env';
+        $env = is_file($dotenv) ? self::readDotenv($dotenv) : [];
         $settings = array_replace(
             self::readYaml($directory . '/contact.yaml'),
-            self::readDotenv($directory . '/.env'),
+            $env,
         );
         $localYaml = $directory . '/contact.local.yaml';
         if (is_file($localYaml)) {
@@ -69,7 +74,22 @@ final readonly class ContactConfig
             $resolved['MMASH_MAILPIT_HOST'],
             $resolved['MMASH_MAILPIT_PORT'],
             str_starts_with($stateDir, '/') ? $stateDir : $root . '/' . $stateDir,
+            $transport === 'ses' ? self::readSesCredentials($env) : null,
         );
+    }
+
+    private static function readSesCredentials(array $env): ?Credentials
+    {
+        $key = trim($env['AWS_ACCESS_KEY_ID'] ?? '');
+        $secret = trim($env['AWS_SECRET_ACCESS_KEY'] ?? '');
+        if ($key === '' && $secret === '') {
+            return null; // Allow the AWS SDK's default credential providers where configured.
+        }
+        if ($key === '' || $secret === '') {
+            throw new RuntimeException('Both SES access key settings are required in config/.env');
+        }
+
+        return new Credentials($key, $secret);
     }
 
     private static function readYaml(string $path): array
@@ -92,6 +112,11 @@ final readonly class ContactConfig
             throw new RuntimeException('Shell command substitution is not supported in contact configuration');
         }
 
-        return (new Dotenv())->parse($contents, $path);
+        try {
+            return (new Dotenv())->parse($contents, $path);
+        } catch (FormatException) {
+            // The parser's exception can include the contents of a secret setting.
+            throw new RuntimeException('Invalid dotenv syntax in ' . basename($path));
+        }
     }
 }

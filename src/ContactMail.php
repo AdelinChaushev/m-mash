@@ -55,12 +55,16 @@ final class ContactMail
             throw new RuntimeException('Invalid SES configuration');
         }
 
-        $ses = new SesV2Client([
+        $options = [
             'version' => '2019-09-27',
             'region' => $config->region,
             'retries' => 0,
             'http' => ['connect_timeout' => 3, 'timeout' => 8],
-        ]);
+        ];
+        if ($config->sesCredentials !== null) {
+            $options['credentials'] = $config->sesCredentials;
+        }
+        $ses = new SesV2Client($options);
         self::sendWithSes($ses, $config->from, $replyTo, $message);
     }
 

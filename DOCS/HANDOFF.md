@@ -5,8 +5,8 @@
 - The frontend still has no build step. All 25 pages and their assets moved under `public/` without changing visitor URLs. Shared CSS/JS uses `2026-11-18`.
 - The four contact forms submit to a PHP 8.5 endpoint with localized inline and no-JS responses, optional phone, no attachments and private file-based rate limiting. Production defaults to SES v2. On this checkout, the ignored `config/.env.local` enables Mailpit on the working `m-mash.test` vhost; no Docker LAMP settings were changed. See [contact setup](CONTACT.md).
 - Git `origin` and Deployer both use `git@github.com:vdonchev/m-mash.git` on `master`. Confirmed the VPS can read the new repository with the existing agent forwarded for one connection. For future releases, see [deploy options](DEPLOY.md#deploy-or-roll-back).
-- Production uses `ubuntu@151.80.145.236:/var/www/m-mash.net`. Check `current/REVISION` on the VPS for the active commit. The first release (`f21d32d`) was uploaded via Deployer's `local_archive` strategy. Apache and PHP-FPM 8.5 both run as `www-data`. Verified release permissions and direct FPM responses (GET 405, invalid POST 422); no SES send. This recipe does not configure Apache or DNS.
-- Composer validation, configuration precedence, audit and mocked SES tests passed. Earlier checks covered all 25 pages at root and under a subpath and inline/no-JS form behavior in Chromium. A dummy inquiry through the actual `m-mash.test` vhost reached Docker LAMP's Mailpit after the config change, with the expected `Reply-To`. No live SES messages.
+- Production releases are fetched from GitHub to `ubuntu@151.80.145.236:/var/www/m-mash.net`. Check `current/REVISION` for the active commit. Apache and PHP-FPM 8.5 both run as `www-data`. The recipe does not configure Apache or DNS.
+- Deployer now shares `config/.env` and preserves existing content; `.env.local` remains available for Mailpit. Composer validation, mocked SES signing with dummy dotenv credentials, Docker Mailpit configuration loading and private file creation checks passed. No live SES messages.
 
 ## Open items
 
@@ -19,7 +19,7 @@
 | Client photo permissions | Confirm the provenance and permission for the four client-supplied photos in [the asset register](ASSETS.md#photo-provenance). |
 | Legacy-host migration | Required if the canonical domain moves off the old server. Inventory and migrate documents, funding logos, certificate and fallback images before switching. |
 
-**Next action:** Confirm the Apache vhost, TLS and DNS cutover plan before switching public traffic. Follow the [VPS/SES checklist](CONTACT.md#vps-and-ses) to enable inquiry delivery.
+**Next action:** Follow the [VPS/SES checklist](CONTACT.md#vps-and-ses) to populate the shared `.env` with a send-only key. Confirm the Apache vhost, TLS and DNS cutover plan before switching public traffic.
 
 ## Keep this current
 

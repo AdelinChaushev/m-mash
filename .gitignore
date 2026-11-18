@@ -4,5 +4,7 @@
 /var/
 /.env
 /.env.*
+/config/.env
 /config/.env.*
+!/config/.env.example
 /config/*.local.yaml
