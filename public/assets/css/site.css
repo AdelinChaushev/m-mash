@@ -19,6 +19,35 @@ html {
   html { scroll-behavior: smooth; }
 }
 
+/* Fast navigations finish before this indicator is shown. */
+html:is(.nav-loading, .nav-loaded)::before {
+  content: "";
+  position: fixed;
+  z-index: 200;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--amber-400);
+  pointer-events: none;
+  transform: scaleX(.35);
+  transform-origin: left;
+}
+
+html.nav-loaded::before { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: no-preference) {
+  html.nav-loading::before { animation: nav-progress 6s cubic-bezier(.12, .55, .35, 1) both; }
+  html.nav-loaded::before { animation: nav-progress-done 240ms ease-out both; }
+  @keyframes nav-progress {
+    from { transform: scaleX(.08); }
+    to { transform: scaleX(.87); }
+  }
+  @keyframes nav-progress-done {
+    from { transform: var(--nav-progress-start, scaleX(.35)); }
+    55% { transform: scaleX(1); opacity: 1; }
+    to { transform: scaleX(1); opacity: 0; }
+  }
+}
+
 body {
   margin: 0;
   min-height: 100vh;
