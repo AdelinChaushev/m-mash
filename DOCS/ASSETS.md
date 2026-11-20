@@ -3,7 +3,7 @@
 ## Shared design
 
 - [`public/assets/css/tokens.css`](../public/assets/css/tokens.css) defines the graphite, steel blue, navy, industrial white and safety amber palettes, plus type and spacing. [`public/assets/css/site.css`](../public/assets/css/site.css) defines components; `.on-dark` remaps roles for dark sections.
-- The header follows the refined CNC mockup: a navy contact and language strip above a white navigation row. The new mark redraws the angular M and open ring of the original logo; the wordmark and slogan are live HTML inside the named home link. The original artwork, footer logo and favicon are unchanged.
+- The header follows the refined CNC mockup: a navy contact and language strip above a white navigation row. The new mark redraws the angular M and open ring of the original logo; the wordmark and slogan are live HTML inside the named home link. The footer uses the localized company name as a home link. The original artwork and favicon are unchanged.
 - Below `66rem`, the closed header keeps the shorter wordmark, phone, four languages and localized inquiry button. The hamburger opens a full-screen white dialog with an icon-only X (locally labelled for screen readers), large navy links, light dividers, an amber current-page marker and inquiry button, language links, phone and email. The dialog scrolls on short screens while the close control stays visible and the background page does not scroll. Without JavaScript or dialog support, the original in-page navigation stays visible. The site header itself is not sticky. Check a 320 px phone, landscape, both sides of the 1056 px breakpoint at default browser font size and a wide desktop.
 - Inner-page `.page-hero` sections use navy and sky-blue breadcrumb links; the inquiry `.band` stays steel blue. Other dark sections use graphite. The footer uses the page's light background. `footer-gears.svg` and `footer-edge-gear.svg` are CSS masks on `.site-footer::before` and `main::after`; the rising gear needs room in the final section's bottom padding. End new public pages with `.band` or `.section`, or reserve that space explicitly.
 - The [design reference](../public/dizain-sistema.html) shows the tokens and components. It also states the preference for M-MASH's own photos; the current stock files are temporary exceptions, not photos of M-MASH's workshop.
@@ -14,8 +14,7 @@ Images live in [`public/assets/img/`](../public/assets/img/). Reuse the existing
 
 | File | Slot | Reference size |
 | --- | --- | --- |
-| `logo.svg` | Optional dark logo in the shared footer; currently uses a legacy fallback | Vector |
-| `m-mash-mark.svg` | Header mark redrawn from the original circular M | Vector, 64 × 64 viewBox |
+| `m-mash-mark.svg` | Header mark redrawn from the original circular M; also used in organization metadata | Vector, 64 × 64 viewBox |
 | `banner.png` | Original banner artwork, retained as a reference | 760 × 366 |
 | `banner-logo.png` | Retired banner: top strip with the original logo | 240 × 81 |
 | `banner-strip.png` | Retired banner: repeating top strip | 4 × 81 |
@@ -27,10 +26,10 @@ Images live in [`public/assets/img/`](../public/assets/img/). Reuse the existing
 | `shlifovane.jpg` | Grinding | 1309 × 982 |
 | `detayli.jpg` | Finished parts | 1600 × 1200 |
 | `kontrol.jpg` | Quality and inspection | 1309 × 982 |
-| `sgrada.jpg` | Building photo slot on About; currently uses a legacy fallback | 1600 × 1200 |
+| `sgrada.jpg` | About: company building in Kazanlak | 1440 × 1080 |
 | `favicon.ico` | Browser icon from the original round logo | 16, 32 and 48 px |
 
-Missing regular photos with `data-label` show a neutral placeholder; missing secondary hero slides show a dark placeholder with the file label. The primary hero and building slots use the old building photo as fallback, and the footer logo falls back to the old `logo.jpg`.
+The home hero and About building photo use bundled images only, with no legacy fallbacks.
 
 The home hero cycles every six seconds. Arrows, slide indicators and touch swipes allow manual selection. Hover or keyboard focus on the controls pauses rotation; reduced-motion users get manual changes only. To add a slide, copy the `hero-3.jpg` markup in all four home pages and update `data-label` and `src`; JS creates one indicator per slide.
 

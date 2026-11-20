@@ -145,6 +145,7 @@ p { text-wrap: pretty; }
 }
 
 .stack > * + * { margin-top: var(--stack, 1.25rem); }
+.stack--readable { max-width: var(--measure); }
 
 .grid { display: grid; gap: var(--grid-gap); }
 .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -261,17 +262,6 @@ p { text-wrap: pretty; }
 .header-brand__text { display: grid; gap: 0.2rem; padding-inline-start: 0.8rem; border-inline-start: 1px solid var(--color-border); }
 .header-brand__name { font-size: 1.5rem; font-weight: 700; line-height: 1.1; letter-spacing: var(--tracking-tight); }
 .header-brand__slogan { color: var(--color-text-body); font-size: var(--fs-xs); line-height: 1.25; }
-
-/* Logo: assets/img/logo.svg, in the footer.
-   Until that file exists, the old white-on-blue logo.jpg is used and
-   its background is removed with the --legacy filters. */
-.brand { display: inline-flex; align-items: center; flex: none; text-decoration: none; }
-.brand__logo { width: auto; height: 3rem; }
-.brand__logo--legacy {
-  filter: grayscale(1) invert(1) brightness(1.35);
-  mix-blend-mode: multiply;
-  transform: translateY(3px);
-}
 
 .nav { display: flex; align-items: center; flex: 1; gap: clamp(0.75rem, 1.5vw, 1.75rem); }
 .nav__list { display: flex; align-items: center; gap: 0.125rem; list-style: none; }
@@ -640,15 +630,6 @@ p { text-wrap: pretty; }
 .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .photo--missing img { display: none; }
 
-/* The ISO certificate on the home page: shown whole, and the scan opens at full size */
-.certificate { display: grid; gap: 0.75rem; width: min(100%, 20rem); justify-self: end; }
-.certificate a { display: block; border-radius: var(--radius-md); }
-.certificate img { width: 100%; border-radius: var(--radius-md); }
-.certificate figcaption { font-size: var(--fs-small); color: var(--color-text-muted); }
-.certificate strong { display: block; font-weight: 600; color: var(--color-text); }
-
-@media (max-width: 900px) { .certificate { justify-self: start; } }
-
 /* ---------- Cards ---------- */
 .card {
   display: flex;
@@ -743,37 +724,13 @@ a.card:hover { border-color: var(--color-border-strong); }
 .timeline__text { font-weight: 600; line-height: 1.4; }
 
 /* ---------- Projects & notices (Актуално) ---------- */
-.funding-logo {
-  display: inline-flex;
-  align-items: center;
-  max-width: 100%;
-  padding: 0.625rem 0.875rem;
-  background: var(--white);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-}
-.funding-logo img { width: auto; max-width: 100%; height: 4rem; object-fit: contain; }
-/* NextGenerationEU emblem, cropped from the project's official notice image */
-.funding-logo__ngeu {
-  display: block;
-  width: min(17rem, 72vw);
-  aspect-ratio: 598 / 143;
-  background: url("https://m-mash.net/images/Eu-pic.png") 41.9753% 5.0594% / 235.4515% auto no-repeat;
-}
-
 .project { display: grid; gap: 2rem; padding-bottom: clamp(2.5rem, 1.5rem + 3vw, 4rem); scroll-margin-top: 2rem; }
-.project__head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem 3rem; align-items: start; }
-.project__intro { display: grid; gap: 1rem; justify-items: start; }
+.project__head { display: grid; gap: 1rem; justify-items: start; }
 .project__title { font-size: var(--fs-h3); font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; }
 .project__meta { display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; }
 .project__meta div { display: grid; gap: 0.2rem; }
 .project__meta dt { font-size: var(--fs-xs); color: var(--color-text-muted); }
 .project__meta dd { font-weight: 600; color: var(--color-text); }
-@media (max-width: 760px) {
-  .project__head { grid-template-columns: minmax(0, 1fr); }
-  .project__head .funding-logo { order: -1; justify-self: start; }
-}
-
 /* Collapsed projects */
 .project-fold { border-top: 1px solid var(--color-border-strong); }
 .project-fold:last-child { border-bottom: 1px solid var(--color-border); }
@@ -1018,6 +975,8 @@ a.contact-tile__value:hover { color: var(--color-label); }
   gap: 2.5rem;
   padding-block: clamp(3rem, 2rem + 3vw, 4.5rem);
 }
+.footer-brand__name { color: var(--color-text); font-size: var(--fs-h4); font-weight: 700; text-decoration: none; }
+.footer-brand__name:hover { text-decoration: underline; }
 .footer-brand p { max-width: 20rem; margin-top: 1.25rem; color: var(--color-text-muted); }
 .footer-title { margin-bottom: 1rem; font-size: var(--fs-small); font-weight: 600; color: var(--color-text); }
 .footer-links { display: grid; gap: 0.625rem; list-style: none; }
