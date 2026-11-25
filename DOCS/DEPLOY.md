@@ -35,7 +35,18 @@ DocumentRoot /var/www/m-mash.net/current/public
 
 Run `apache2ctl configtest` before reloading, then smoke-test the vhost before switching DNS. Check `301` responses, query string preservation, `/sitemap.xml`, and PHP execution on `/contact-submit.php`. The rewrite rules do not handle the PHP endpoint or legacy `files/` and `images/` paths; keep serving the legacy documents and images separately.
 
-## Deploy or roll back
+## Automatic releases from GitHub
+
+[Test and deploy](../.github/workflows/production.yml) runs the contact tests and JavaScript syntax check for pull requests to `master` and pushes to `master`. Only a successful push run in `vdonchev/m-mash` can deploy. The workflow uses the existing Deployer recipe for the tested commit, not whatever commit happens to be on `master` when the VPS fetches. It skips superseded commits and does not create another release if `current/REVISION` already matches. It verifies the deployed revision and checks the public home, capabilities, German contact and PHP endpoint with GET requests only.
+
+Before pushing the workflow to `master`, verify the `production` GitHub environment exists, allows only `master`, and has both environment secrets:
+
+- `VPS_SSH_PRIVATE_KEY`: the Actions-to-VPS private key. Its public key is authorized for the `ubuntu` deploy account.
+- `VPS_KNOWN_HOSTS`: the verified VPS host-key line for `151.80.145.236`.
+
+The VPS separately uses `~/.ssh/m-mash-github-ro`, whose public key is a read-only deploy key in `vdonchev/m-mash`. No agent forwarding is used by Actions. Protect `master` and review changes to the workflow and deployment recipe before merging. The first push that adds the workflow to `master` can deploy. Do not also deploy locally for a push handled by Actions.
+
+## Local deploy or rollback
 
 From the local checkout:
 
@@ -56,7 +67,7 @@ If using your local SSH agent instead of a deploy key, forward it for this deplo
 vendor/bin/dep deploy production -o forward_agent=true -o ssh_multiplexing=false
 ```
 
-After release, verify the public URL, locale navigation and PHP routing. Test live SES delivery only with approval. To revert the `current` symlink to the previous release:
+After a local release, verify the public URL, locale navigation and PHP routing. Test live SES delivery only with approval. If you need to roll back, first make sure no deploy is running or queued in Actions. To revert the `current` symlink to the previous release:
 
 ```sh
 vendor/bin/dep rollback production

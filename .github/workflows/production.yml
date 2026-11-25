@@ -1,0 +1,139 @@
+name: Test and deploy
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+# Keep an active release running, and keep PR checks out of the deploy queue.
+concurrency:
+  group: mmash-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Test site
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.5'
+          extensions: curl, mbstring
+          coverage: none
+          tools: composer:v2
+      - run: composer install --no-interaction --no-progress --prefer-dist
+      - run: composer test
+      - run: node --check public/assets/js/site.js
+
+  deploy:
+    name: Deploy production
+    needs: test
+    if: >-
+      github.repository == 'vdonchev/m-mash' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/master' &&
+      !github.event.deleted
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment:
+      name: production
+      url: https://m-mash.net/
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.5'
+          extensions: curl, mbstring
+          coverage: none
+          tools: composer:v2
+      - run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Check whether the commit is still the tip of master
+        id: tip
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          latest="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/master" --jq '.object.sha')"
+          if [[ "$latest" == "$GITHUB_SHA" ]]; then
+            echo 'deploy=true' >> "$GITHUB_OUTPUT"
+          else
+            echo "Skipping $GITHUB_SHA: master has moved to $latest."
+          fi
+
+      - name: Release and verify the tested commit
+        if: steps.tip.outputs.deploy == 'true'
+        shell: bash
+        env:
+          VPS_HOST: '151.80.145.236'
+          VPS_SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          : "${VPS_SSH_PRIVATE_KEY:?Missing VPS_SSH_PRIVATE_KEY}"
+          : "${VPS_KNOWN_HOSTS:?Missing VPS_KNOWN_HOSTS}"
+          umask 077
+          ssh_dir="$(mktemp -d "${RUNNER_TEMP}/mmash-ssh.XXXXXXXX")"
+          trap 'rm -f -- "$ssh_dir/key" "$ssh_dir/known_hosts" "$ssh_dir/config"; rmdir -- "$ssh_dir"' EXIT
+          printf '%s\n' "$VPS_SSH_PRIVATE_KEY" > "$ssh_dir/key"
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > "$ssh_dir/known_hosts"
+          unset VPS_SSH_PRIVATE_KEY VPS_KNOWN_HOSTS
+          ssh-keygen -F "$VPS_HOST" -f "$ssh_dir/known_hosts" > /dev/null
+
+          cat > "$ssh_dir/config" <<EOF
+          Host $VPS_HOST
+              IdentityFile "$ssh_dir/key"
+              UserKnownHostsFile "$ssh_dir/known_hosts"
+              GlobalKnownHostsFile /dev/null
+              StrictHostKeyChecking yes
+              IdentitiesOnly yes
+              IdentityAgent none
+              BatchMode yes
+              ForwardAgent no
+              ConnectTimeout 15
+          EOF
+
+          read_revision() {
+            ssh -F "$ssh_dir/config" "ubuntu@$VPS_HOST" \
+              'if test -e /var/www/m-mash.net/current/REVISION; then cat /var/www/m-mash.net/current/REVISION; fi'
+          }
+
+          current="$(read_revision)"
+          if [[ "$current" != "$GITHUB_SHA" ]]; then
+            # Deployer splits -o values on "="; use SSH's whitespace form for nested options.
+            vendor/bin/dep deploy production --revision="$GITHUB_SHA" \
+              -o "config_file=$ssh_dir/config" -o ssh_multiplexing=false \
+              -o 'git_ssh_command=ssh -F /dev/null -o "BatchMode yes" -o "StrictHostKeyChecking yes" -o "IdentityAgent none" -o "IdentitiesOnly yes" -i ~/.ssh/m-mash-github-ro'
+            current="$(read_revision)"
+          else
+            echo "Already on $GITHUB_SHA; no new release needed."
+          fi
+          if [[ "$current" != "$GITHUB_SHA" ]]; then
+            echo "::error::Expected $GITHUB_SHA in current/REVISION, got ${current:-<missing>}."
+            exit 1
+          fi
+
+          check_status() {
+            local expected="$1" path="$2" actual
+            actual="$(curl --silent --show-error --connect-timeout 10 --max-time 30 --retry 2 \
+              --output /dev/null --write-out '%{http_code}' "https://m-mash.net$path")" || return
+            if [[ "$actual" != "$expected" ]]; then
+              echo "::error::GET $path returned $actual (expected $expected)."
+              return 1
+            fi
+          }
+          check_status 200 /
+          check_status 200 /proizvodstvo
+          check_status 200 /de/kontakt
+          check_status 405 /contact-submit.php
+          echo "Verified production revision $current."
